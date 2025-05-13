@@ -1,0 +1,17 @@
+.navbar {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto; /* Får navbaren att skjuta till höger */
+}
+
+/* Navbaren döljs på små skärmar med en media-query och istället visas en hamburger-meny */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+}
+
+.navbar a {
+  color: #d4af37;
+  text-decoration: none;
+}

@@ -1,0 +1,30 @@
+/* Döljer hamburgermenyn i desktop-läge */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+.hamburger {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #d4af37;
+  cursor: pointer;
+}
+
+.hamburger-menu {
+  position: absolute;
+  top: 60px;
+  right: 1rem;
+  background: #444;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hamburger-menu a {
+  color: #d4af37;
+  text-decoration: none;
+}
