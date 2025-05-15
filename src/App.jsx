@@ -1,14 +1,26 @@
 
+
 import Footer from './components/footer/Footer';
+import React from 'react';
+import { Header } from './components/Header';
+import { useState } from 'react'
+import './App.css'
+import Explore from './components/Explore'
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  
   return (
     <>
-        <Footer /> 
+    
+      <Header />
+      <Explore/>
+     <Footer /> 
+    
     </>
   )
-}
 
+}
 export default App
+
+
