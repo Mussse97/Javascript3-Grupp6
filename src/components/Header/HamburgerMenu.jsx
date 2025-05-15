@@ -1,14 +1,22 @@
+// Importera React och useState för att hantera komponentens tillstånd 
 import React, { useState } from 'react';
 import './HamburgerMenu.css';
 
+// Skapa en funktionell komponent för hamburgermenyn 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
-
+  // Hantera öppning och stängning av menyn med useState-hooken 
   return (
-    <div className="hamburger-container">
-      <button className="hamburger" onClick={() => setOpen(!open)}>
-        ☰
-      </button>
+     <div className="hamburger-container">
+      <div
+        className={`hamburger ${open ? 'open' : ''}`}
+        onClick={() => setOpen(!open)}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
       {open && (
         <div className="hamburger-menu">
           <a href="/">Hem</a>
@@ -20,4 +28,7 @@ const HamburgerMenu = () => {
   );
 };
 
+// Exportera komponenten för användning i andra delar av appen 
 export default HamburgerMenu;
+
+

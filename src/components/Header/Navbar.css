@@ -1,17 +1,65 @@
-.navbar {
-  display: flex;
-  gap: 1rem;
-  margin-left: auto; /* Får navbaren att skjuta till höger */
+.header-wrapper {
+  width: 100%;
+  background-color: #312f2c; 
+  padding: 0.5rem 1rem;
 }
 
-/* Navbaren döljs på små skärmar med en media-query och istället visas en hamburger-meny */
+/* Grundläggande styling för navigeringsfältet */
+.navbar {
+  display: flex;
+  justify-content: flex-end; /* Trycker allt till höger */
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Styling för tema-ikonen som är till för att växla mellan mörkt och ljust läge på sidan */
+.theme-icon-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem; /* Lite mellanrum till länkar/hamburger */
+}
+
+.theme-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: #d4af37;
+  padding: 0.25rem;
+}
+
+/* Länkarna */
+.links-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Visa länkar endast på desktop */
 @media (max-width: 768px) {
-  .navbar {
+  .links-wrapper {
     display: none;
   }
 }
 
+/* Visa hamburger-menyn endast på mobil */
+@media (min-width: 769px) {
+  .hamburger-container {
+    display: none;
+  }
+}
+
+/* Styling för länkarna i navbaren */
 .navbar a {
-  color: #d4af37;
-  text-decoration: none;
+  color: #d4af37; 
+  text-decoration: none; 
+  padding: 0.5rem 1rem; 
+  border-radius: 4px; 
+  transition: background-color 0.8s ease, color 0.8s ease; /* Övergångseffekt för bakgrundsfärg och textfärg */ 
+}
+/* Länkarna i navbaren får en guldig bakgrundsfärg vid hover */
+/* och textfärgen ändras till svart */
+.navbar a:hover {
+  background-color: #d4af37; 
+  color: #312f2c; 
+  text-decoration: none; 
 }
