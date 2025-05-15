@@ -1,26 +1,24 @@
-
-
+import React, { useEffect, useState } from 'react';
 import Footer from './components/footer/Footer';
-import React from 'react';
 import { Header } from './components/Header';
-import { useState } from 'react'
-import './App.css'
-import Explore from './components/Explore'
-
+import './App.css';
+import Explore from './components/Explore';
 
 function App() {
-  
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const toggleTheme = () => setIsDarkMode(prev => !prev);
+
+  useEffect(() => {
+    document.body.className = isDarkMode ? 'dark-theme' : 'light-theme';
+  }, [isDarkMode]);
+
   return (
     <>
-    
-      <Header />
-      <Explore/>
-     <Footer /> 
-    
+      <Header toggleTheme={toggleTheme} />
+      <Explore />
+      <Footer />
     </>
-  )
-
+  );
 }
-export default App
 
-
+export default App;
