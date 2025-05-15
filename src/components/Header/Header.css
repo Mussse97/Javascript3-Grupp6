@@ -1,0 +1,23 @@
+/* Styling för headern */ 
+.header {
+  width: 100%; 
+  position: fixed; /* Fixerad position så att headern alltid är synlig */ 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  margin: 0 auto; 
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); /* Lägger till en skugga under headern */
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0.3rem; 
+  background-color: #312f2c; 
+  color: #d4af37; 
+  z-index: 10; /* Z-index för att säkerställa att headern ligger ovanpå annat innehåll */ 
+  box-sizing: border-box; 
+}
+
+/* Styling för logotypen i headern */ 
+.header-logo {
+  font-size: 1.4rem;
+}
