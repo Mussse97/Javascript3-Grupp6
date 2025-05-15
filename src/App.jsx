@@ -1,26 +1,25 @@
-
-
-import Footer from './components/footer/Footer';
 import React from 'react';
-import { Header } from './components/Header';
-import { useState } from 'react'
-import './App.css'
-import Explore from './components/Explore'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import './App.css';
+import Header from './components/Header/Header';
+import Footer from './components/footer/Footer';
+import Explore from './components/Explore';
+import CreatePost from './components/CreatePost'; 
 
 function App() {
-  
   return (
-    <>
-    
+    <Router>
       <Header />
-      <Explore/>
-     <Footer /> 
-    
-    </>
-  )
 
+      <Routes>
+        <Route path="/" element={<Explore />} />
+        <Route path="/create" element={<CreatePost />} />
+      </Routes>
+
+      <Footer />
+    </Router>
+  );
 }
-export default App
 
-
+export default App;
