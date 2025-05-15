@@ -59,11 +59,11 @@ const categories = [
     <main className="explore">
       <header className="explore-header">
         <h1>Media Hub</h1>
-        <div className="search-section">
+        <section className="search-section">
           <p>Upptäck nya titlar</p>
           <input type="text" placeholder="Sök..." />
           <button>Sök</button>
-        </div>
+        </section>
       </header>
 
      <section className="category-buttons">
@@ -80,7 +80,7 @@ const categories = [
 
 <section className="filter-section">
   <h2>Filtrera</h2>
-  <div className="genre-filters">
+  <section className="genre-filters">
     {genres.length === 0 ? (
       <p>Inga genrer tillgängliga</p>
     ) : (
@@ -91,7 +91,7 @@ const categories = [
         </label>
       ))
     )}
-  </div>
+  </section>
 </section>
 
       <section className="posts-section">
@@ -102,18 +102,18 @@ const categories = [
         ) : (
           posts.map(post => (
             <article key={post._id} className="post-card">
-              <div className="post-info">
+              <section className="post-info">
                 <h3>{post.title}</h3>
                 <p>År: {post.year}</p>
                 <p>Producent: {post.producer}</p>
                 <p>Kategori: {post.category?.title}</p>
                 <p>Genrer: {post.genres?.map(g => g.title).join(', ')}</p>
                 <p>Inehåll: {post.body}</p>
-              </div>
-              <div className="post-actions">
+              </section>
+              <section className="post-actions">
                 <button>👍</button>
                 <button>👎</button>
-              </div>
+              </section>
             </article>
           ))
         )}
