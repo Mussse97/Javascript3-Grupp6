@@ -1,3 +1,6 @@
+/* OBS! DENNA FIL HAR ÄNDRATS JÄMFÖRT MED DEFAULT-FILEN FÖR ATT 
+BAKGRUNDSFÄRG OCH TOGGLE MELLAN LJUST/MÖRKT TEMA SKULLE FUNGERA KORREKT */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
