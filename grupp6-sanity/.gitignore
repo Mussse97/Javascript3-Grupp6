@@ -3,7 +3,9 @@
 # Dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.
+package.json
+package-lock.json
 
 # Compiled Sanity Studio
 /dist
