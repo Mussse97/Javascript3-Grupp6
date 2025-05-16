@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { client } from "../../src/sanityClient"
+import client from '../sanityClient'; // ✅ Rätt import
 import './Explore.css';
 
 const Explore = () => {
@@ -7,33 +7,20 @@ const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [genres, setGenres] = useState([]);
 
- const handleCategoryClick = async (slug) => {
-  const newSlug = selectedCategory === slug ? null : slug;
-  setSelectedCategory(newSlug);
+  const handleCategoryClick = (slug) => {
+    const newSlug = selectedCategory === slug ? null : slug;
+    setSelectedCategory(newSlug);
 
-  if (!newSlug) {
-    setGenres([]); // Rensa om ingen kategori är vald
-    return;
-  }
+    // Här kan du lägga till egen filtrering om du vill
+    // Just nu används slug bara för att markera valt filter
+  };
 
-  const query = `
-    *[_type == "genre" && category->slug.current == $slug]{
-      _id,
-      title
-    }
-  `;
-
-  const result = await client.fetch(query, { slug: newSlug });
-  setGenres(result);
-};
-
-
-const categories = [
-  { title: '🎮 Spel', slug: 'spel' },
-  { title: '🎬 Film', slug: 'film' },
-  { title: '🎵 Musik', slug: 'musik' },
-  { title: '📚 Böcker', slug: 'bocker' }, 
-];
+  const categories = [
+    { title: '🎮 Spel', slug: 'spel' },
+    { title: '🎬 Film', slug: 'film' },
+    { title: '🎵 Musik', slug: 'musik' },
+    { title: '📚 Böcker', slug: 'böcker' },
+  ];
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -42,18 +29,27 @@ const categories = [
         title,
         year,
         producer,
-        category->{title},
-        genres[]->{title},
-        body
+        category,
+        genre,
+        content,
+        createdAt
       }`;
-      const result = await client.fetch(query);
-      setPosts(result);
+
+      try {
+        const result = await client.fetch(query);
+        setPosts(result);
+      } catch (error) {
+        console.error('Fel vid hämtning av inlägg:', error);
+      }
     };
 
     fetchPosts();
-   
-
   }, []);
+
+  // Filtrera inlägg om kategori är vald
+  const filteredPosts = selectedCategory
+    ? posts.filter(post => post.category.toLowerCase() === selectedCategory)
+    : posts;
 
   return (
     <main className="explore">
@@ -66,49 +62,33 @@ const categories = [
         </div>
       </header>
 
-     <section className="category-buttons">
-  {categories.map((cat) => (
-    <button
-      key={cat.slug}
-      className={`category-btn ${selectedCategory === cat.slug ? 'active' : ''}`}
-      onClick={() => handleCategoryClick(cat.slug)}>
-      {cat.title}
-    </button>
-  ))}
-</section>
-
-
-<section className="filter-section">
-  <h2>Filtrera</h2>
-  <div className="genre-filters">
-    {genres.length === 0 ? (
-      <p>Inga genrer tillgängliga</p>
-    ) : (
-      genres.map((genre) => (
-        <label key={genre._id}>
-          <input type="checkbox" />
-          {genre.title}
-        </label>
-      ))
-    )}
-  </div>
-</section>
+      <section className="category-buttons">
+        {categories.map((cat) => (
+          <button
+            key={cat.slug}
+            className={`category-btn ${selectedCategory === cat.slug ? 'active' : ''}`}
+            onClick={() => handleCategoryClick(cat.slug)}
+          >
+            {cat.title}
+          </button>
+        ))}
+      </section>
 
       <section className="posts-section">
         <h2>Inlägg</h2>
-
-        {posts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <p>Inga inlägg ännu.</p>
         ) : (
-          posts.map(post => (
+          filteredPosts.map(post => (
             <article key={post._id} className="post-card">
               <div className="post-info">
                 <h3>{post.title}</h3>
                 <p>År: {post.year}</p>
                 <p>Producent: {post.producer}</p>
-                <p>Kategori: {post.category?.title}</p>
-                <p>Genrer: {post.genres?.map(g => g.title).join(', ')}</p>
-                <p>Inehåll: {post.body}</p>
+                <p>Kategori: {post.category}</p>
+                <p>Genre: {post.genre}</p>
+                <p>Recension: {post.content}</p>
+                <p><small>Publicerad: {new Date(post.createdAt).toLocaleString()}</small></p>
               </div>
               <div className="post-actions">
                 <button>👍</button>

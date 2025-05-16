@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CreatePost.css';
+import client from '../sanityClient';
 
 function CreatePost() {
   const [post, setPost] = useState({
@@ -17,31 +18,39 @@ function CreatePost() {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-
     const newPost = {
-      ...post,
-      id: Date.now(),
-      createdAt: new Date().toLocaleString(),
+      _type: 'post', // måste matcha schema i Sanity
+      title: post.title,
+      category: post.category,
+      year: post.year,
+      producer: post.producer,
+      genre: post.genre,
+      content: post.content,
+      createdAt: new Date().toISOString(),
     };
 
-    const updatedPosts = [newPost, ...savedPosts];
-    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    try {
+      await client.create(newPost);
+      setMessage('Inlägget har publicerats!');
 
-    setMessage('Inlägget har sparats!');
-    setPost({
-      title: '',
-      category: 'film',
-      year: '',
-      producer: '',
-      genre: '',
-      content: '',
-    });
+      // Rensa formuläret
+      setPost({
+        title: '',
+        category: 'film',
+        year: '',
+        producer: '',
+        genre: '',
+        content: '',
+      });
 
-    setTimeout(() => setMessage(''), 3000);
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      console.error('Fel vid publicering:', error);
+      setMessage('Ett fel uppstod. Försök igen.');
+    }
   };
 
   return (

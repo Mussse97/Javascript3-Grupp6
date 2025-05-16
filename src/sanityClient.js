@@ -1,9 +1,12 @@
 // src/sanityClient.js
-import sanityClient from '@sanity/client';
+import { createClient } from '@sanity/client';
 
-export const client = sanityClient({
-  projectId: 'vjiz9cdi', // t.ex. "abc123"
+const client = createClient({
+  projectId: 'vjiz9cdi',
   dataset: 'production',
-  apiVersion: '2024-05-13', // eller dagens datum
-  useCdn: true,
+  apiVersion: '2024-05-13',
+  useCdn: false,
+  token: 'DIN_WRITE_TOKEN' // byt ut till riktig token
 });
+
+export default client; // ✅ Viktigt! default-export
