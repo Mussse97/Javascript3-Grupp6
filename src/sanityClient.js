@@ -1,4 +1,4 @@
-// src/sanityClient.js
+
 import { createClient } from "@sanity/client";
 
 export const client = createClient({
@@ -7,3 +7,5 @@ export const client = createClient({
   apiVersion: "2024-05-13", // eller dagens datum
   useCdn: true,
 });
+
+

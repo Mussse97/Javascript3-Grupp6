@@ -68,7 +68,7 @@ body.light-theme {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #c6c8efaa);
 }
 
 .logo.react:hover {

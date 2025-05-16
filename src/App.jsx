@@ -2,13 +2,13 @@
 
 // Importerar nödvändiga bibliotek och komponenter 
 import React, { useEffect, useState } from 'react';
-import Footer from './components/footer/Footer';
 import { Header } from './components/Header';
-import './App.css';
-import Explore from './components/Explore';
 import SinglePost from "./components/singlepost/SinglePost";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import './App.css';
+import Footer from './components/footer/Footer';
+import Explore from './components/Explore';
+import CreatePost from './components/CreatePost'; 
 
 // Definierar huvudkomponenten för appen som hanterar mörkt/ljust läge och renderar andra komponenter
 function App() {
@@ -20,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Explore />} />
         <Route path="/post/:slug" element={<SinglePost />} />
+        <Route path="/create" element={<CreatePost />} />
       </Routes>
 
       <Footer />

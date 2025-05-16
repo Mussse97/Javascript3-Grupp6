@@ -1,0 +1,131 @@
+/* Box model fix */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.create-post-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:50px 20px 20px;
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  min-height: 100dvh;
+}
+
+.create-post-form {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.create-post-form h2 {
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.create-post-form label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.create-post-form input,
+.create-post-form select,
+.create-post-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  color: #000;
+  transition: box-shadow 0.3s ease;
+}
+
+.create-post-form input:focus,
+.create-post-form select:focus,
+.create-post-form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 8px #d4af37;
+}
+
+.create-post-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.create-post-form button {
+  padding: 12px;
+  border: none;
+  background-color: #d4af37;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-post-form button:hover {
+  background-color: #b9972f;
+}
+
+.success {
+  color: #00e676;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Rader med flera fält */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#year-group {
+  flex: 0 0 100px;
+}
+
+/* Mobilanpassning */
+@media (max-width: 600px) {
+  .create-post-wrapper {
+    padding: 80px 16px 100px;
+    min-height: auto;
+  }
+
+  .create-post-form {
+    padding: 20px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  #year-group {
+    flex: 1 1 100%;
+  }
+}

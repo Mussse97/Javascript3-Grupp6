@@ -26,6 +26,7 @@ const Navbar = ({ toggleTheme }) => {
           <Link to={"/"}>Hem</Link>
           <a href="/about">Utforska</a>
           <a href="/contact">Profiler</a>
+          <a href="/create">Skapa inlägg</a>
         </div>
 
         {/* Hamburger-meny - visas bara i mobil-läge */}
