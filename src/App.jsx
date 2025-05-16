@@ -6,7 +6,7 @@ import { Header } from './components/Header';
 import SinglePost from "./components/singlepost/SinglePost";
 import Footer from './components/footer/Footer';
 import Explore from './components/explore/Explore';
-import CreatePost from './components/CreatePost'; 
+import CreatePost from './components/createPost/CreatePost'; 
 import './App.css';
 
 
