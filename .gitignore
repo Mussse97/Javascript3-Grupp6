@@ -23,3 +23,8 @@ package.json
 *.njsproj
 *.sln
 *.sw?
+
+package.json 
+package-lock.json
+
+

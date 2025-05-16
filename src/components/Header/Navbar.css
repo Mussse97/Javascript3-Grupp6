@@ -1,4 +1,5 @@
-.header-wrapper {
+/* Grundläggande styling för headern */
+.header-wrapper { 
   width: 100%;
   background-color: #312f2c; 
   padding: 0.5rem 1rem;
@@ -17,9 +18,9 @@
 .theme-icon-wrapper {
   display: flex;
   align-items: center;
-  margin-right: 1rem; /* Lite mellanrum till länkar/hamburger */
+  margin-right: 1rem; /* Lite mellanrum till länkar/hamburger-menyn */
 }
-
+/* Tema-ikonen är en del av headern och används för att växla mellan mörkt och ljust läge */ 
 .theme-icon {
   width: 24px;
   height: 24px;

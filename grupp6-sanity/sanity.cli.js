@@ -4,6 +4,7 @@ export default defineCliConfig({
   api: {
     projectId: 'vjiz9cdi',
     dataset: 'production',
+
   },
   /**
    * Enable auto-updates for studios.

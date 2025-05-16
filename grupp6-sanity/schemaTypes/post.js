@@ -9,6 +9,7 @@ export default {
       title: 'Titel',
     },
     {
+
       name: 'slug',
       type: 'slug',
       title: 'Slug',
@@ -19,6 +20,7 @@ export default {
       },
     },
     {
+
       name: 'year',
       type: 'number',
       title: 'År',
@@ -32,13 +34,15 @@ export default {
       name: 'category',
       type: 'reference',
       title: 'Kategori',
-      to: [{type: 'category'}],
+
+      to: [{ type: 'category' }],
     },
     {
       name: 'genres',
       type: 'array',
       title: 'Genrer',
-      of: [{type: 'reference', to: [{type: 'genre'}]}],
+
+      of: [{ type: 'reference', to: [{ type: 'genre' }] }],
     },
     {
       name: 'body',
@@ -46,4 +50,4 @@ export default {
       title: 'Innehåll',
     },
   ],
-}
+};

@@ -5,12 +5,12 @@ import HamburgerMenu from "./HamburgerMenu"; // importera hamburger-menyn
 import { Link } from "react-router-dom";
 
 // Definierar Navbar-komponenten som representerar navigeringsfältet i applikationen
-const Navbar = () => {
+const Navbar = ({ toggleTheme }) => {  
   return (
     <header className="header-wrapper">
       <nav className="navbar">
         {/* SVG-ikon för toggle mellan mörkt/ljust läge (inline) */}
-        <div className="theme-icon-wrapper">
+        <div className="theme-icon-wrapper" onClick={toggleTheme}>
           <svg
             className="theme-icon"
             xmlns="http://www.w3.org/2000/svg"
