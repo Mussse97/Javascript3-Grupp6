@@ -16,7 +16,7 @@ const HamburgerMenu = () => {
         <span></span>
         <span></span>
       </div>
-
+      {/* Visa menyn om den är öppen */}
       {open && (
         <div className="hamburger-menu">
           <a href="/">Hem</a>
