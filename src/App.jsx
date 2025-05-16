@@ -1,9 +1,11 @@
+
 // Importerar nödvändiga bibliotek och komponenter 
 import React, { useEffect, useState } from 'react';
 import Footer from './components/footer/Footer';
 import { Header } from './components/Header';
 import './App.css';
 import Explore from './components/Explore';
+
 
 // Definierar huvudkomponenten för appen som hanterar mörkt/ljust läge och renderar andra komponenter
 function App() {
@@ -18,9 +20,11 @@ function App() {
   // Renderar komponenter, Header-komponenten tar emot toggleTheme-funktionen som prop
   return (
     <>
+
       <Header toggleTheme={toggleTheme} />
       <Explore />
       <Footer />
+
     </>
   );
 }
