@@ -46,21 +46,21 @@ const Startsida = () => {
       id: 1,
       title: "Loser företag torskar stort",
       excerpt: "Ubisoft förlorar 400 000 000$ i deras nya spel L",
-      imageUrl: "test",
+      imageUrl: "/src/assets/test.jpeg",
       category: "Spel" // lade till kategori 
     },
     {
       id: 2,
       title: "Påven får drama",
       excerpt: "Påvens ny släppta låtar får världen att stå still",
-      imageUrl: "test",
+      imageUrl: "/src/assets/test.jpeg",
       category: "Musik" // lade till kategori 
     },
     {
       id: 3,
       title: "Lokal författare gör blunder!",
       excerpt: "Lokal författare blev skyldig 35kr under deras boksläpp",
-      imageUrl: "test",
+      imageUrl: "/src/assets/test.jpeg",
       category: "Böcker" // lade till kategori 
     }
   ];
@@ -68,22 +68,8 @@ const Startsida = () => {
   
   return (
     <div className="startsida-wrapper">
-      <header className="site-header">  
-        <div className="header-content"> 
-          <div className="site-title">MedieTema</div>
-          
-          <button className="mobile-menu-button" onClick={toggleMenu}>
-            ☰
-          </button>
-          
-          <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
-            <li><a href="/">test</a></li>
-            <li><a href="/explore">Explore utforska bla</a></li>
-            <li><a href="/test">tset</a></li>
-            <li><a href="/tset">test</a></li>
-            <li><a href="/test">tset</a></li>
-          </ul>
-        </div>
+      <header >  {/*HEEEEEEEEEEEEADER HÄR*/} 
+ 
       </header>
 
       <main className="startsida-main">
@@ -132,35 +118,9 @@ const Startsida = () => {
           </div>
         </section>
       </main>
-
-      <footer className="site-footer">
-        <div className="footer-content">
-          <div className="footer-section">
-            <h3>Om MedieTema</h3>
-            <p>Vi erbjuder de bästa media för dig!</p>
-            <p>Grundat 1412 med fokus på jag vet inte</p>
-          </div>
-          
-          <div className="footer-section">
-            <h3>Kontakta oss inte, Tack!</h3>
-            <p>Email: info@MedieTema.se</p>
-            <p>Telefon: 08-123 45 67</p>
-            <p>Adress: Mediegatan 1, 111 22 Stockholm</p>
-          </div>
-          
-          <div className="footer-section"> 
-            <h3>Följ oss inte, Tack!</h3>
-            <div className="social-links">
-              <a href="https://linkedin.com">LinkedIn</a>
-              <a href="https://twitter.com">Twitter</a>
-              <a href="https://facebook.com">Facebook</a>
-            </div>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <p>&copy; 2025 MedieTema AB. Alla rättigheter förbehållna.</p>
-        </div>
+ 
+      <footer>  {/*FOOOOOOOOOOOTER HÄR*/} 
+    
       </footer>
     </div>
   );
