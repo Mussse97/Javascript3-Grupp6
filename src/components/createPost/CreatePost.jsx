@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CreatePost.css';
-import {client} from '../sanityClient';
+import {client} from '../../sanityClient';
 
 function CreatePost() {
   const [post, setPost] = useState({
