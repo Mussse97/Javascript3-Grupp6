@@ -9,6 +9,18 @@ export default {
       title: 'Titel',
     },
     {
+
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+        auto: true,
+      },
+    },
+    {
+
       name: 'year',
       type: 'number',
       title: 'År',
@@ -22,12 +34,14 @@ export default {
       name: 'category',
       type: 'reference',
       title: 'Kategori',
+
       to: [{ type: 'category' }],
     },
     {
       name: 'genres',
       type: 'array',
       title: 'Genrer',
+
       of: [{ type: 'reference', to: [{ type: 'genre' }] }],
     },
     {

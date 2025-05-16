@@ -1,12 +1,13 @@
-// Importerar React, Hamburger-komponenten och CSS-filen för Navbar-komponenten 
-import React from 'react';
-import './Navbar.css';
-import HamburgerMenu from './HamburgerMenu'; // importera hamburger-menyn
+// Importerar React, Hamburger-komponenten och CSS-filen för Navbar-komponenten
+import React from "react";
+import "./Navbar.css";
+import HamburgerMenu from "./HamburgerMenu"; // importera hamburger-menyn
+import { Link } from "react-router-dom";
 
 // Definierar Navbar-komponenten som representerar navigeringsfältet i applikationen
 const Navbar = ({ toggleTheme }) => {  
   return (
-     <header className="header-wrapper">
+    <header className="header-wrapper">
       <nav className="navbar">
         {/* SVG-ikon för toggle mellan mörkt/ljust läge (inline) */}
         <div className="theme-icon-wrapper" onClick={toggleTheme}>
@@ -22,7 +23,7 @@ const Navbar = ({ toggleTheme }) => {
 
         {/* Länkar - visas bara i desktop-läge */}
         <div className="links-wrapper">
-          <a href="/">Hem</a>
+          <Link to={"/"}>Hem</Link>
           <a href="/about">Utforska</a>
           <a href="/contact">Profiler</a>
         </div>
@@ -34,5 +35,5 @@ const Navbar = ({ toggleTheme }) => {
   );
 };
 
-// Exporterar Navbar-komponenten för användning i andra delar av applikationen 
+// Exporterar Navbar-komponenten för användning i andra delar av applikationen
 export default Navbar;

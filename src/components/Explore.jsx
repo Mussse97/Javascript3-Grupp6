@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { client } from "../../src/sanityClient"
-import './Explore.css';
+import React, { useEffect, useState } from "react";
+import { client } from "../../src/sanityClient";
+import "./Explore.css";
+import { Link } from "react-router-dom";
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);
@@ -96,8 +97,6 @@ const handleGenreChange = async (e, genreTitle) => {
   setPosts(result);
 };
 
-
-
   const handleCategoryClick = async (slug) => {
     // Om man klickar på samma kategori igen -> nollställ
     if (selectedCategory === slug) {
@@ -118,6 +117,7 @@ const handleGenreChange = async (e, genreTitle) => {
     fetchAllPosts();
   }, []);
 
+
   return (
     <main className="explore">
       <header className="explore-header">
@@ -132,6 +132,7 @@ const handleGenreChange = async (e, genreTitle) => {
         {categories.map((cat) => (
           <button
             key={cat.slug}
+
             className={`category-btn ${selectedCategory === cat.slug ? 'active' : ''}`}
             onClick={() => handleCategoryClick(cat.slug)}
           >
@@ -142,6 +143,14 @@ const handleGenreChange = async (e, genreTitle) => {
 
       <section className="filter-section">
         <h2>Filtrera</h2>
+        <div className="genre-filters">
+          {genres.length === 0 ? (
+            <p>Inga genrer tillgängliga</p>
+          ) : (
+            genres.map((genre) => (
+              <label key={genre._id}>
+                <input type="checkbox" />
+
         <section className="genre-filters">
       {genres.length === 0 ? (
           <p>Inga genrer tillgängliga</p>
@@ -153,10 +162,12 @@ const handleGenreChange = async (e, genreTitle) => {
                   onChange={(e) => handleGenreChange(e, genre.title)}
                   checked={selectedGenres.includes(genre.title)}
                 />
+
                 {genre.title}
               </label>
             ))
           )}
+
 
         </section>
       </section>
@@ -166,10 +177,15 @@ const handleGenreChange = async (e, genreTitle) => {
         {posts.length === 0 ? (
           <p>Inga inlägg ännu.</p>
         ) : (
-          posts.map(post => (
+          posts.map((post) => (
             <article key={post._id} className="post-card">
+
               <section className="post-info">
-                <h3>{post.title}</h3>
+                 {post.slug?.current && (
+                  <Link to={`/post/${post.slug.current}`}>
+                    <h3>{post.title}</h3>
+                  </Link>
+                )}
                 <p>År: {post.year}</p>
                 <p>Producent: {post.producer}</p>
                 <p>Kategori: {post.category?.title}</p>
