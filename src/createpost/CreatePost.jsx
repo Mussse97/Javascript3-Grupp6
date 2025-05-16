@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import './CreatePost.css';
-import client from '../sanityClient';
+import React, { useState } from "react";
+import "./CreatePost.css";
+import { client } from "../../sanityClient";
 
 function CreatePost() {
   const [post, setPost] = useState({
-    title: '',
-    category: 'film',
-    year: '',
-    producer: '',
-    genre: '',
-    content: '',
+    title: "",
+    category: "film",
+    year: "",
+    producer: "",
+    genre: "",
+    content: "",
   });
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -22,7 +22,7 @@ function CreatePost() {
     e.preventDefault();
 
     const newPost = {
-      _type: 'post', // måste matcha schema i Sanity
+      _type: "post", // måste matcha schema i Sanity
       title: post.title,
       category: post.category,
       year: post.year,
@@ -34,22 +34,22 @@ function CreatePost() {
 
     try {
       await client.create(newPost);
-      setMessage('Inlägget har publicerats!');
+      setMessage("Inlägget har publicerats!");
 
       // Rensa formuläret
       setPost({
-        title: '',
-        category: 'film',
-        year: '',
-        producer: '',
-        genre: '',
-        content: '',
+        title: "",
+        category: "film",
+        year: "",
+        producer: "",
+        genre: "",
+        content: "",
       });
 
-      setTimeout(() => setMessage(''), 3000);
+      setTimeout(() => setMessage(""), 3000);
     } catch (error) {
-      console.error('Fel vid publicering:', error);
-      setMessage('Ett fel uppstod. Försök igen.');
+      console.error("Fel vid publicering:", error);
+      setMessage("Ett fel uppstod. Försök igen.");
     }
   };
 
