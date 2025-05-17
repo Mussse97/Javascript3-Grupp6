@@ -1,10 +1,13 @@
 // Importera React och useState för att hantera komponentens tillstånd 
 import React, { useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { NavLink } from 'react-router-dom';
 import './HamburgerMenu.css';
 
 // Skapa en funktionell komponent för hamburgermenyn 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
+  const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
   // Hantera öppning och stängning av menyn med useState-hooken 
   return (
      <div className="hamburger-container">
@@ -21,7 +24,8 @@ const HamburgerMenu = () => {
         <div className="hamburger-menu">
           <a href="/">Hem</a>
           <a href="/about">Utforska</a>
-          <a href="/contact">Profiler</a>
+          <NavLink to="/profiles">Profiler</NavLink>
+          {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
           <a href="/create">Skapa inlägg</a>
           <a href="/register">Registrera</a>
         </div>

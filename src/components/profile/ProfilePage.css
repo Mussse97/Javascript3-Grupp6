@@ -1,0 +1,36 @@
+.profile-page { 
+    max-width:600px; 
+    margin:2rem auto; 
+    background:#312f2c; 
+    padding:1.5rem; 
+    border-radius:6px; 
+    color:#d4af37; 
+}
+
+.profile-page input, .profile-page textarea { 
+    width:100%; 
+    padding:0.5rem; 
+    border:none; 
+    border-radius:4px; 
+    margin-top:0.25rem; 
+}
+
+.profile-page button { 
+    margin-right:0.5rem; 
+    margin-top:1rem; 
+    padding:0.5rem 1rem; 
+    background:#d4af37; 
+    color:#312f2c; 
+    border:none; 
+    border-radius:4px; 
+    cursor:pointer; 
+}
+
+.profile-page button:hover { 
+    background:#b58e27; 
+}
+
+.msg { 
+    margin-top:0.75rem; 
+    font-weight:bold; 
+}

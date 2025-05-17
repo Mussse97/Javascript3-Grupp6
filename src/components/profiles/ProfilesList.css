@@ -1,0 +1,22 @@
+.profiles-list { 
+    max-width: 700px; 
+    margin: 2rem auto; 
+    color:#d4af37; 
+}
+
+.profiles-list ul { 
+    list-style:none; 
+    padding:0; 
+}
+
+.profiles-list li { 
+    background:#312f2c; 
+    margin-bottom:1rem; 
+    padding:1rem; 
+    border-radius:6px; 
+}
+
+.profiles-list a { 
+    color:#312f2a; 
+    font-size:1.1rem; 
+}
