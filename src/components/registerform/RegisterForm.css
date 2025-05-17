@@ -18,6 +18,12 @@
   margin-bottom: 1rem;
 }
 
+textarea {
+  resize: vertical; /* Tillåter bara vertikal förstoring */
+  max-width: 100%;  /* Maxbredd begränsas till förälderns bredd */
+  box-sizing: border-box; /* Så padding och border räknas in i bredden */
+}
+
 .register-form input,
 .register-form textarea {
   width: 100%;
