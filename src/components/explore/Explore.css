@@ -1,93 +1,169 @@
-:root {
-  --primary-color: #d4af37;
-  --secondary-color: #312f2c;
-  }
-
+/* Allmän layout */
 .explore {
+  background-color: #312f2c;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
   padding: 2rem;
-  font-family: sans-serif;
 }
 
 .explore-header {
   text-align: center;
   margin-bottom: 2rem;
-  padding-top:50px
+  
 }
 
 .search-section {
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 100px;
+}
+
+.search-section input {
+  padding: 0.7rem 1rem;
+  width: 300px;
+  border: none;
+  border-radius: 5px;
+}
+
+.search-section button {
+  padding: 0.7rem 1.5rem;
+  background-color: #d4af37;
+  border: none;
+  color: #312f2c;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .category-buttons {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 2rem 0;
 }
 
 .category-btn {
-  padding: 10px 20px;
-  margin: 5px;
+  background-color: #2B4162;
   border: none;
-  background-color: black;
-  border-radius: 20px;
+  padding: 0.8rem 1.2rem;
+  color: white;
+  border-radius: 50px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  transition: 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #1f2e47;
 }
 
 .category-btn.active {
-  background-color: #7d5fff; 
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #d4af37;
+  color: #312f2c;
 }
 
-
+/* Filtrering */
 .filter-section {
-  text-align: center;
-  margin-bottom: 2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  background-color: #2B4162;
+  padding: 1rem;
+  border-radius: 10px;
+  position: relative;
+}
+
+.filter-section h2 {
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.2rem;
+  color: #d4af37;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .genre-filters {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.genre-filters.open {
+  max-height: 500px; /* eller tillräckligt stort för att rymma alla */
   margin-top: 1rem;
 }
 
+.genre-filters label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+/* Inlägg */
 .posts-section {
+  display: grid;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
 .post-card {
-  background-color: #2B4162;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column ;
- 
-
+  background: linear-gradient(145deg, #2B4162, #312f2c);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
 }
 
-.post-card:hover{
-  background-color: #7d5fff;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
+.post-card:hover {
+  transform: scale(1.02);
 }
+
+.post-info h3 {
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+
+.post-info p {
+  margin: 0.3rem 0;
+}
+
 .post-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
+.post-actions button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  color: #d4af37;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-.genre-filters{
-  background-color: black;
-  color: white;
-  height: 50px;
-  border-radius: 20px;
+.post-actions button:hover {
+  background-color: #d4af37;
+  color: #312f2c;
+}
+
+/* Filter-knappar */
+.filter-likes {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.filter-likes button {
+  background-color: #2B4162;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 0.6rem 1.2rem;
+  margin: 0 0.5rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filter-likes button:hover {
+  background-color: #d4af37;
+  color: #312f2c;
 }

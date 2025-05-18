@@ -20,7 +20,7 @@ const HamburgerMenu = () => {
       {open && (
         <div className="hamburger-menu">
           <a href="/">Hem</a>
-          <a href="/about">Utforska</a>
+          <a href="/explore">Utforska</a>
           <a href="/contact">Profiler</a>
           <a href="/create">Skapa inlägg</a>
         </div>

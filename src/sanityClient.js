@@ -9,3 +9,10 @@ export const client = createClient({
 });
 
 
+export const writeClient = createClient({
+  projectId: 'vjiz9cdi',
+  dataset: 'production',
+  apiVersion: '2024-05-13',
+  token: import.meta.env.VITE_SANITY_WRITE_TOKEN, // 🔐 token från .env-fil
+  useCdn: false, // skrivning = aldrig CDN
+});

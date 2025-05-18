@@ -8,6 +8,7 @@ import Footer from './components/footer/Footer';
 import Explore from './components/explore/Explore';
 import CreatePost from './components/createPost/CreatePost'; 
 import './App.css';
+import Startsida from './components/startsida/Startsida';
 
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
       <Header toggleTheme={toggleTheme} />
 
       <Routes>
-        <Route path="/" element={<Explore />} />
+        <Route path="/" element={<Startsida/>} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/post/:slug" element={<SinglePost />} />
         <Route path="/create" element={<CreatePost />} />
       </Routes>
