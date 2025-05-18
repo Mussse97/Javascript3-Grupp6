@@ -21,7 +21,7 @@ const Explore = () => {
     { title: "🎵 Musik", slug: "musik" },
     { title: "📚 Böcker", slug: "bocker" },
   ];
-
+  // Hämtar alla inlägg
   const fetchAllPosts = async () => {
     const query = `*[_type == "post"]{
       _id,
@@ -38,7 +38,7 @@ const Explore = () => {
     const result = await client.fetch(query);
     setPosts(result);
   };
-
+  // Hämtar inlägg baserat på vald kategori
   const fetchPostsByCategory = async (slug) => {
     const query = `
       *[_type == "post" && category->slug.current == $slug]{
@@ -57,7 +57,7 @@ const Explore = () => {
     const result = await client.fetch(query, { slug });
     setPosts(result);
   };
-
+  // Hämtar genrer för en vald kategori
   const fetchGenresByCategory = async (slug) => {
     const query = `
       *[_type == "genre" && category->slug.current == $slug]{
@@ -68,7 +68,7 @@ const Explore = () => {
     const result = await client.fetch(query, { slug });
     setGenres(result);
   };
-
+  // Hämtar genrer för en vald kategori
   const handleGenreChange = async (e, genreTitle) => {
     const checked = e.target.checked;
     let updatedGenres;
@@ -111,7 +111,7 @@ const Explore = () => {
     setPosts(result);
   };
 
-
+ // Sökfunktion, vi kollar sökfältet och ser om vi hittar en match i titlar, producenter eller innehåll
   const handleSearch = async () => {
   if (!searchTerm.trim()) return;
 
@@ -269,22 +269,18 @@ const fetchLeastLiked = async () => {
   <button onClick={fetchMostLiked}>Mest gillade</button>
   <button onClick={fetchLeastLiked}>Minst gillade</button>
 </section>
-
-        <h2>Inlägg</h2>
-        {posts.length === 0 ? (
-          <p>Inga inlägg ännu.</p>
-        ) : (
-          posts.map((post) => (
-            
-            <article key={post._id} className="post-card">
-              <section className="post-info">
-              {post.slug?.current ? (
-                        <Link to={`/post/${post.slug.current}`}>
-                          <h3>{post.title}</h3>
-                        </Link>
-                      ) : (
-                        <h3>{post.title}</h3>
-                      )}
+   <h2>Inlägg</h2>
+     {posts.length === 0 ? (
+      <p>Inga inlägg ännu.</p>
+       ) : (
+      posts.map((post) => (
+      <article key={post._id} className="post-card">
+        <section className="post-info">
+          {post.slug?.current ? (
+            <Link to={`/post/${post.slug.current}`}>
+              <h3>{post.title}</h3> </Link>
+                  ) : (
+                  <h3>{post.title}</h3>)}
                 <p>År: {post.year}</p>
                 <p>Producent: {post.producer}</p>
                 <p>Kategori: {post.category?.title}</p>
