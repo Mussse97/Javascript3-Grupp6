@@ -27,6 +27,7 @@ const Navbar = ({ toggleTheme }) => {
           <a href="/about">Utforska</a>
           <a href="/contact">Profiler</a>
           <a href="/create">Skapa inlägg</a>
+          <a href="/register">Registrera</a>
         </div>
 
         {/* Hamburger-meny - visas bara i mobil-läge */}

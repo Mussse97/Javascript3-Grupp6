@@ -7,6 +7,7 @@ import SinglePost from "./components/singlepost/SinglePost";
 import Footer from './components/footer/Footer';
 import Explore from './components/explore/Explore';
 import CreatePost from './components/createPost/CreatePost'; 
+import RegisterForm from './components/registerform/RegisterForm';
 import './App.css';
 import Startsida from './components/startsida/Startsida';
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/post/:slug" element={<SinglePost />} />
         <Route path="/create" element={<CreatePost />} />
+        <Route path="/register" element={<RegisterForm />} />
       </Routes>
 
       <Footer />

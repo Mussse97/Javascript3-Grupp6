@@ -1,0 +1,68 @@
+.register-form {
+  max-width: 400px;
+  margin: 1rem auto;
+  background: #312f2c;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  color: #d4af37;
+  font-family: sans-serif;
+}
+
+.register-form h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.register-form label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+textarea {
+  resize: vertical; /* Tillåter bara vertikal förstoring */
+  max-width: 100%;  /* Maxbredd begränsas till förälderns bredd */
+  box-sizing: border-box; /* Så padding och border räknas in i bredden */
+}
+
+.register-form input,
+.register-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+.register-form button {
+  background-color: #d4af37;
+  border: none;
+  color: #312f2c;
+  font-weight: bold;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-form button:disabled {
+  background-color: #a38627;
+  cursor: not-allowed;
+}
+
+.register-form button:hover:not(:disabled) {
+  background-color: #b78f23;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.success {
+  color: #a7d129;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}

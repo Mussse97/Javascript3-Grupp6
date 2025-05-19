@@ -23,6 +23,7 @@ const HamburgerMenu = () => {
           <a href="/explore">Utforska</a>
           <a href="/contact">Profiler</a>
           <a href="/create">Skapa inlägg</a>
+          <a href="/register">Registrera</a>
         </div>
       )}
     </div>
