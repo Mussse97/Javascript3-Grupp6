@@ -70,7 +70,7 @@ export default function SinglePost() {
   if (!post) return <div>Laddar...</div>;
 
   return (
-    <div className="single-post-container">
+    <div className="single-post-wrapper">
       <section className="single-post">
         <h1>{post.title}</h1>
         <div className="post-info">
