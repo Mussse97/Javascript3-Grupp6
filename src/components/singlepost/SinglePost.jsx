@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { client, writeClient } from "../../sanityClient";
 import { useState } from "react";
 import { useEffect } from "react";
+import "./SinglePost.css";
 
 export default function SinglePost() {
   const { slug } = useParams();
@@ -40,6 +41,7 @@ export default function SinglePost() {
     if (!name || !comment) return;
 
     const newComment = {
+      _key: new Date().toISOString(),
       name,
       comment,
       createdAt: new Date().toISOString(),
@@ -68,23 +70,25 @@ export default function SinglePost() {
   if (!post) return <div>Laddar...</div>;
 
   return (
-    <>
-      <div className="posts-section">
+    <div className="single-post-container">
+      <section className="single-post">
         <h1>{post.title}</h1>
-        <p>År: {post.year}</p>
-        <p>Producent: {post.producer}</p>
-        <p>Kategori: {post.category?.title}</p>
-        <p>Genrer: {post.genres?.map((g) => g.title).join(", ")}</p>
-        <p>Inehåll: {post.body}</p>
-      </div>
-      <div className="comment">
-        <h2>Kommentarer</h2>
+        <div className="post-info">
+          <p>År: {post.year}</p>
+          <p>Producent: {post.producer}</p>
+          <p>Kategori: {post.category?.title}</p>
+          <p>Genrer: {post.genres?.map((g) => g.title).join(", ")}</p>
+          <p>Inehåll: {post.body}</p>
+        </div>
+      </section>
+      <div className="comment-wrapper">
+        <h2>Kommentarer: </h2>
         {post.comments?.length > 0 ? (
           post.comments.map((comment, id) => (
-            <div key={id}>
+            <div key={id} className="comment-container">
               <strong>{comment.name}</strong> (
               {new Date(comment.createdAt).toLocaleDateString()}):
-              <p>{comment.comment}</p>
+              <p className="comment-text">{comment.comment}</p>
             </div>
           ))
         ) : (
@@ -109,6 +113,6 @@ export default function SinglePost() {
         </form>
         {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
       </div>
-    </>
+    </div>
   );
 }
