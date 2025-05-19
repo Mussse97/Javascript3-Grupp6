@@ -30,9 +30,8 @@ const Navbar = ({ toggleTheme }) => {
           <Link to="/explore">Utforska</Link>
           <NavLink to="/profiles">Profiler</NavLink>
           {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
-          { /* <a href="/contact">Profiler</a> BEHÖVS EJ LÄNGRE */}
-          <a href="/create">Skapa inlägg</a>
-          <a href="/register">Registrera</a>
+          <Link to="/create">Skapa inlägg</Link>
+          <Link to="/register">Registrera</Link>
         
         </div>
 

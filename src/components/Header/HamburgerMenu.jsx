@@ -1,6 +1,7 @@
 // Importera React och useState för att hantera komponentens tillstånd 
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { Link } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import './HamburgerMenu.css';
 
@@ -22,13 +23,12 @@ const HamburgerMenu = () => {
       {/* Visa menyn om den är öppen */}
       {open && (
         <div className="hamburger-menu">
-          <a href="/">Hem</a>
-          <a href="/about">Utforska</a>
+          <Link to="/">Hem</Link>
+          <Link to="/explore">Utforska</Link>
           <NavLink to="/profiles">Profiler</NavLink>
           {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
-
-          <a href="/create">Skapa inlägg</a>
-          <a href="/register">Registrera</a>
+          <Link to="/create">Skapa inlägg</Link>
+          <Link to="/register">Registrera</Link>
         </div>
       )}
     </div>

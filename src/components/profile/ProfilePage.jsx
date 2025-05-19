@@ -17,7 +17,7 @@ export default function ProfilePage() {
         client.fetch('*[_type=="user" && _id==$id][0]', { id })
             .then(p => {
                 setProfile(p);
-                setForm({ username:p.username, bio:p.bio || '' });
+                setForm({ username: p.username, bio: p.bio || '' });
             })
             .catch(console.error);
     }, [id]);
@@ -37,49 +37,51 @@ export default function ProfilePage() {
             console.error(err);
         }
     };
-    
+
     if (!profile) return <p>Laddar profil...</p>;
 
     return (
         <section className="profile-page">
-          <h2>{isMe ? 'Min profil' : `Profil: ${profile.username}`}</h2>
+            <div>
+                <h2>{isMe ? 'Min profil' : `Profil: ${profile.username}`}</h2>
 
-          {!edit && (
-            <>
-                <p><strong>Användarnamn:</strong> {profile.username}</p>
-                <p><strong>Om mig:</strong> {profile.bio || '_'}</p>
-                {isMe && (
-                    <button onClick={() => setEdit(true)}>Redigera</button>
+                {!edit && (
+                    <>
+                        <p><strong>Användarnamn:</strong> {profile.username}</p>
+                        <p><strong>Om mig:</strong> {profile.bio || '_'}</p>
+                        {isMe && (
+                            <button onClick={() => setEdit(true)}>Redigera</button>
+                        )}
+                    </>
                 )}
-            </>
-          )}
-          
-          {edit && (
-            <>
-                <label>
-                    Användarnamn:
-                    <input
-                        name="username"
-                        value={form.username}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Om mig:
-                    <textarea
-                        name="bio"
-                        rows="4" 
-                        value={form.bio}
-                        onChange={handleChange}
-                    />
-                </label>
-                <button onClick={save}>Spara</button>
-                <button onClick={() => setEdit(false)}>Avbryt</button>
-            </>
-          )}
-          {msg && <p className="msg">{msg}</p>}
-        </section>
-        );
-}
 
+                {edit && (
+                    <>
+                        <label>
+                            Användarnamn:
+                            <input
+                                name="username"
+                                value={form.username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                        <label>
+                            Om mig:
+                            <textarea
+                                name="bio"
+                                rows="4"
+                                value={form.bio}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <button onClick={save}>Spara</button>
+                        <button onClick={() => setEdit(false)}>Avbryt</button>
+                    </>
+                )}
+
+                {msg && <p className="msg">{msg}</p>}
+            </div>
+        </section>
+    );
+}
