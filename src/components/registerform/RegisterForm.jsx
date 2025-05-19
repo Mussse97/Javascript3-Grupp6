@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { userClient } from "../../userSanityClient";
 import './RegisterForm.css';
+import { writeClient } from "../../sanityClient";
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const RegisterForm = () => {
                 createdAt: new Date().toISOString(),
             };
 
-            await userClient.create(userDoc);
+            await writeClient.create(userDoc);
             setSuccessMsg('Registrering lyckades!');
             setFormData({
                 username: '',
@@ -55,7 +55,7 @@ const RegisterForm = () => {
         }
 
         try { 
-            await userClient.create({
+            await writeClient.create({
                 _type: 'user',
                 username: formData.username,
                 email: formData.email,
