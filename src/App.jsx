@@ -8,6 +8,8 @@ import Footer from './components/footer/Footer';
 import Explore from './components/explore/Explore';
 import CreatePost from './components/createPost/CreatePost'; 
 import RegisterForm from './components/registerform/RegisterForm';
+import ProfilesList from './components/profiles/ProfilesList';
+import ProfilePage  from './components/profile/ProfilePage';
 import './App.css';
 import Startsida from './components/startsida/Startsida';
 
@@ -30,6 +32,8 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/post/:slug" element={<SinglePost />} />
         <Route path="/create" element={<CreatePost />} />
+        <Route path="/profiles" element={<ProfilesList />} />     {/* lista */}
+        <Route path="/profile/:id" element={<ProfilePage />} />   {/* individuell */}
         <Route path="/register" element={<RegisterForm />} />
       </Routes>
 

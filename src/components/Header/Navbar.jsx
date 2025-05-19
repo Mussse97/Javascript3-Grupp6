@@ -3,9 +3,12 @@ import React from "react";
 import "./Navbar.css";
 import HamburgerMenu from "./HamburgerMenu"; // importera hamburger-menyn
 import { Link } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 // Definierar Navbar-komponenten som representerar navigeringsfältet i applikationen
 const Navbar = ({ toggleTheme }) => {  
+  const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
   return (
     <header className="header-wrapper">
       <nav className="navbar">
@@ -25,9 +28,12 @@ const Navbar = ({ toggleTheme }) => {
         <div className="links-wrapper">
           <Link to={"/"}>Hem</Link>
           <a href="/about">Utforska</a>
-          <a href="/contact">Profiler</a>
+          <NavLink to="/profiles">Profiler</NavLink>
+          {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
+          { /* <a href="/contact">Profiler</a> BEHÖVS EJ LÄNGRE */}
           <a href="/create">Skapa inlägg</a>
           <a href="/register">Registrera</a>
+        
         </div>
 
         {/* Hamburger-meny - visas bara i mobil-läge */}
