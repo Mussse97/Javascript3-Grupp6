@@ -26,6 +26,7 @@ const HamburgerMenu = () => {
           <a href="/about">Utforska</a>
           <NavLink to="/profiles">Profiler</NavLink>
           {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
+
           <a href="/create">Skapa inlägg</a>
           <a href="/register">Registrera</a>
         </div>

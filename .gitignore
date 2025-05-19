@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.env
 
 node_modules
 dist
@@ -23,7 +24,7 @@ package.json
 *.njsproj
 *.sln
 *.sw?
-
+.env
 package.json 
 package-lock.json
 

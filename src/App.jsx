@@ -11,6 +11,7 @@ import RegisterForm from './components/registerform/RegisterForm';
 import ProfilesList from './components/profiles/ProfilesList';
 import ProfilePage  from './components/profile/ProfilePage';
 import './App.css';
+import Startsida from './components/startsida/Startsida';
 
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
       <Header toggleTheme={toggleTheme} />
 
       <Routes>
-        <Route path="/" element={<Explore />} />
+        <Route path="/" element={<Startsida/>} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/post/:slug" element={<SinglePost />} />
         <Route path="/create" element={<CreatePost />} />
         <Route path="/profiles" element={<ProfilesList />} />     {/* lista */}
