@@ -27,7 +27,7 @@ const Navbar = ({ toggleTheme }) => {
         {/* Länkar - visas bara i desktop-läge */}
         <div className="links-wrapper">
           <Link to={"/"}>Hem</Link>
-          <a href="/about">Utforska</a>
+          <Link to="/explore">Utforska</Link>
           <NavLink to="/profiles">Profiler</NavLink>
           {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
           { /* <a href="/contact">Profiler</a> BEHÖVS EJ LÄNGRE */}

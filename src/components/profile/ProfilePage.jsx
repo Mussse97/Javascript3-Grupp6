@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { client } from '../../sanityClient';
-import { userClient } from '../../userSanityClient';
+import { client, writeClient } from '../../sanityClient';
 import { useAuth } from '../../hooks/useAuth';
 import './ProfilePage.css'; 
 
@@ -29,7 +28,7 @@ export default function ProfilePage() {
     const save = async () => {
         setMsg('Sparar...');
         try {
-            await userClient.patch(id).set(form).commit();
+            await writeClient.patch(id).set(form).commit();
             setProfile({ ...profile, ...form });
             setEdit(false);
             setMsg('Profilen sparad!');
