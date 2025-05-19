@@ -9,7 +9,6 @@ export default {
       title: 'Titel',
     },
     {
-
       name: 'slug',
       type: 'slug',
       title: 'Slug',
@@ -20,7 +19,6 @@ export default {
       },
     },
     {
-
       name: 'year',
       type: 'number',
       title: 'År',
@@ -35,19 +33,47 @@ export default {
       type: 'reference',
       title: 'Kategori',
 
-      to: [{ type: 'category' }],
+      to: [{type: 'category'}],
     },
     {
       name: 'genres',
       type: 'array',
       title: 'Genrer',
 
-      of: [{ type: 'reference', to: [{ type: 'genre' }] }],
+      of: [{type: 'reference', to: [{type: 'genre'}]}],
     },
     {
       name: 'body',
       type: 'text',
       title: 'Innehåll',
     },
+    {
+      name: 'comments',
+      type: 'array',
+      title: 'Kommentarer',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'name',
+              type: 'string',
+              title: 'Namn',
+            },
+            {
+              name: 'comment',
+              type: 'text',
+              title: 'Kommentar',
+            },
+            {
+              name: 'createdAt',
+              type: 'datetime',
+              title: 'Skapad',
+              initialValue: () => new Date(c.createdAt).toLocaleDateString('sv-SE'),
+            },
+          ],
+        },
+      ],
+    },
   ],
-};
+}
