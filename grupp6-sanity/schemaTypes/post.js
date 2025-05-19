@@ -47,6 +47,18 @@ export default {
       type: 'text',
       title: 'Innehåll',
     },
+      {
+    name: 'likes',
+    type: 'number',
+    title: 'Likes',
+    initialValue: 0,
+  },
+  {
+    name: 'dislikes',
+    type: 'number',
+    title: 'Dislikes',
+    initialValue: 0,
+  }
     {
       name: 'comments',
       type: 'array',
@@ -75,5 +87,6 @@ export default {
         },
       ],
     },
+
   ],
 }
