@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { client } from '../../sanityClient';
+import { writeClient } from '../../sanityClient';
 import { Link } from 'react-router-dom';
 import './ProfilesList.css';
 
@@ -7,7 +7,7 @@ export default function ProfilesList() {
     const [users, setUsers] = useState(null);
 
     useEffect(() => {
-        client
+        writeClient
         .fetch('*[_type=="user"]{ _id, username, bio }')
         .then(setUsers)
         .catch(console.error);

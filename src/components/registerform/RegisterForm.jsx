@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { writeClient } from "../../sanityClient";
 import "./RegisterForm.css";
+import { writeClient } from "../../sanityClient";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({

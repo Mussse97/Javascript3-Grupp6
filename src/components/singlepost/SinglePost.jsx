@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { client } from "../../sanityClient";
+import { client, writeClient } from "../../sanityClient";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -46,7 +46,7 @@ export default function SinglePost() {
     };
 
     try {
-      await client
+      await writeClient
         .patch(post._id)
         .setIfMissing({ comments: [] })
         .append("comments", [newComment])
@@ -80,11 +80,11 @@ export default function SinglePost() {
       <div className="comment">
         <h2>Kommentarer</h2>
         {post.comments?.length > 0 ? (
-          post.comments.map((c, idx) => (
-            <div key={idx}>
-              <strong>{c.name}</strong> (
-              {new Date(c.createdAt).toLocaleDateString()}):
-              <p>{c.comment}</p>
+          post.comments.map((comment, id) => (
+            <div key={id}>
+              <strong>{comment.name}</strong> (
+              {new Date(comment.createdAt).toLocaleDateString()}):
+              <p>{comment.comment}</p>
             </div>
           ))
         ) : (
