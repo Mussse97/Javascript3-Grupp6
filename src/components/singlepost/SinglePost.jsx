@@ -114,7 +114,7 @@ export default function SinglePost() {
           />
           <button type="submit">Skicka kommentar</button>
         </form>
-        {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
+        {successMsg && <p style={{ color: "limegreen" }}>{successMsg}</p>}
       </div>
     </div>
   );
