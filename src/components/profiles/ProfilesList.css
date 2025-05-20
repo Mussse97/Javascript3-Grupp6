@@ -1,23 +1,74 @@
-.profiles-list { 
-    max-width: 700px; 
-    margin: 2rem auto; 
-    color:#d4af37; 
+/* Box model fix */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.profiles-list ul { 
-    list-style:none; 
-    padding:0; 
+.profiles-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px 20px;
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  min-height: 100dvh;
+  color: #fff;
 }
 
-.profiles-list li { 
-    background:#312f2c; 
-    margin-bottom:1rem; 
-    padding:1rem; 
-    border-radius:6px; 
+.profiles-list > div {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.profiles-list a { 
-    color:#d4af37; 
-    font-size:1.1rem; 
+.profiles-list h2 {
+  font-size: 1.7rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
+.profiles-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profiles-list li {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.profiles-list a {
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+.profiles-list p {
+  margin-top: 0.5rem;
+  color: #ddd;
+}
+
+/* Mobilanpassning */
+@media (max-width: 600px) {
+  .profiles-list {
+    padding: 5rem 1rem 1rem;
+    min-height: auto;
+  }
+
+  .profiles-list > div {
+    padding: 0px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}

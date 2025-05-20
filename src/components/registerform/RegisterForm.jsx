@@ -25,92 +25,71 @@ const RegisterForm = () => {
     setError(null);
     setSuccessMsg(null);
 
-    if (!formData.username || !formData.email) {
-      setError("Användarnamn och e-post är obligatoriska fält.");
-      setLoading(false);
-      return;
-    }
+        if (!formData.username || !formData.email) {
+            setError('Användarnamn och e-post är obligatoriska fält.');
+            setLoading(false);
+            return;
+        }
 
-    try {
-      const userDoc = {
-        _type: "user",
-        username: formData.username,
-        email: formData.email,
-        bio: formData.bio,
-        createdAt: new Date().toISOString(),
-      };
+        try {
+            await writeClient.create({
+                _type: 'user',
+                username: formData.username,
+                email: formData.email,
+                bio: formData.bio,
+                createdAt: new Date().toISOString(),
+            });
 
-      await writeClient.create(userDoc);
-      setSuccessMsg("Registrering lyckades!");
-      setFormData({
-        username: "",
-        email: "",
-        bio: "",
-      });
-    } catch (err) {
-      console.error(err);
-      setError("Ett fel inträffade vid registreringen. Försök igen senare.");
-    } finally {
-      setLoading(false);
-    }
+            setSuccessMsg('Registrering lyckades!');
+            setFormData({ username: '', email: '', bio: '' });
+        } catch (err) {
+            setError('Ett fel inträffade: ' + err.message);
+        }
 
-    try {
-      await writeClient.create({
-        _type: "user",
-        username: formData.username,
-        email: formData.email,
-        bio: formData.bio,
-        createdAt: new Date().toISOString(),
-      });
+        setLoading(false);
+    };
 
-      setSuccessMsg("Registrering lyckades!");
-      setFormData({ username: "", email: "", bio: "" });
-    } catch (err) {
-      setError("Ett fel inträffade:" + err.message);
-    }
-    setLoading(false);
-  };
-
-  return (
-    <form className="register-form" onSubmit={handleSubmit}>
-      <h2>Skapa konto</h2>
-      <label>
-        Användarnamn:
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        E-post:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Om mig:
-        <textarea
-          name="bio"
-          value={formData.bio}
-          onChange={handleChange}
-          rows="3"
-          placeholder="Skriv något om dig själv (valfritt)"
-        />
-      </label>
-      <button type="submit" disabled={loading}>
-        {loading ? "Registrerar..." : "Registrera"}
-      </button>
-      {error && <p className="error">{error}</p>}
-      {successMsg && <p className="success">{successMsg}</p>}
-    </form>
-  );
+    return (
+        <section className="register-form">
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <h2>Skapa konto</h2>
+                    <label>
+                        Användarnamn:
+                        <input
+                            type="text"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required />
+                    </label>
+                    <label>
+                        E-post:
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required />
+                    </label>
+                    <label>
+                        Om mig:
+                        <textarea
+                            name="bio"
+                            value={formData.bio}
+                            onChange={handleChange}
+                            rows="3"
+                            placeholder="Skriv något om dig själv (valfritt)" />
+                    </label>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Registrerar...' : 'Registrera'}
+                    </button>
+                    {error && <p className="error">{error}</p>}
+                    {successMsg && <p className="success">{successMsg}</p>}
+                </form>
+            </div>
+        </section>
+    );
 };
 
 export default RegisterForm;

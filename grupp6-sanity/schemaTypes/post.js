@@ -59,8 +59,9 @@ export default {
     type: 'number',
     title: 'Dislikes',
     initialValue: 0,
-  }
-    ,{
+
+  },
+    {
 
       name: 'comments',
       type: 'array',

@@ -37,13 +37,16 @@ body.light-theme {
 }
 
 body.dark-theme {
-  background-color: #121212;
+  background-color: #312f2c;
   color: #f5f5f5;
 }
 
 body.light-theme {
   background-color: #f5f5f5;
-  color: #121212;
+
+  color: #312f2c;
+}
+
 
   .single-post {
     color: #f5f5f5;
