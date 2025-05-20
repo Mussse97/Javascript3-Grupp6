@@ -59,7 +59,7 @@ export default {
     title: 'Dislikes',
     initialValue: 0,
   }
-    {
+    ,{
       name: 'comments',
       type: 'array',
       title: 'Kommentarer',

@@ -12,6 +12,8 @@ const Explore = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);  // Valda genrer
   const [searchTerm, setSearchTerm] = useState(''); // Sökfält
   const [showGenres, setShowGenres] = useState(false);  // Filtrering boxen
+  const [userReactions, setUserReactions] = useState({}); // Användarens reaktioner (gilla/ogilla)
+
 
 
 
@@ -137,34 +139,80 @@ const Explore = () => {
   const result = await client.fetch(query, { term: `*${term}*` });
   setPosts(result);
 };
-
+// I denna funktion kollar vi om användaren redan gillat inlägget
+// Om de inte har det så lägger den till en like och pushar det till sanity
+// Om inlägget har ogillats tidigare så tar den bort en dislike och lägger till en like
+// Sedan uppdaterar den state och localStorage 
+// Sist så uppdaterar den gränsen 
 const handleLike = async (postId) => {
-  await writeClient // Anväder oss avb writeClient där vi kan göra en post till sanity
+  const previousReaction = userReactions[postId];
+
+  // Om användaren redan gillat, gör inget
+  if (previousReaction === "like") return;
+  // Om användaren ogillat tidigare, ta bort en dislike
+  if (previousReaction === "dislike") {
+    await writeClient.patch(postId).dec({ dislikes: 1 }).commit();
+  }
+
+  await writeClient
     .patch(postId)
     .setIfMissing({ likes: 0 })
     .inc({ likes: 1 })
-    .commit() // commitar ändringen till Sanity
-    .then(() => {
-      // Uppdaterar lokalt state för att reflektera ändringen
-      setPosts(prev =>
-        prev.map(post => post._id === postId ? { ...post, likes: (post.likes || 0) + 1 } : post)
-      );
-    });
+    .commit();
+
+  setPosts(prev =>
+    prev.map(post =>
+      post._id === postId
+        ? { ...post,
+            likes: (post.likes || 0) + 1,
+            dislikes:
+              previousReaction === "dislike" ? post.dislikes - 1 : post.dislikes,
+          } : post));
+  const updatedReactions = {
+    ...userReactions,
+    [postId]: "like",
+  };
+  setUserReactions(updatedReactions);
+  localStorage.setItem("userReactions", JSON.stringify(updatedReactions));
 };
- // Hanterar ogillade inlägg och uppdeterar antalet samt visar det
+// I denna funktion kollar vi om användaren redan ogillat inlägget
+// Om de inte har det så lägger den till en dislike och pushar det till sanity
+// Om de har gillat inlägget tidigare så tar den bort en like och lägger till en dislike
+// Sedan uppdaterar den state och localStorage 
+// Sist så uppdaterar den gränsen 
 const handleDislike = async (postId) => {
+  const previousReaction = userReactions[postId];
+
+  // Om användaren redan ogillat, gör inget
+  if (previousReaction === "dislike") return;
+  // Om användaren gillat tidigare, ta bort en like
+  if (previousReaction === "like") {
+    await writeClient.patch(postId).dec({ likes: 1 }).commit();
+  }
+
   await writeClient
     .patch(postId)
     .setIfMissing({ dislikes: 0 })
     .inc({ dislikes: 1 })
-    .commit()
-    .then(() => {
-      setPosts(prev =>
-        prev.map(post => post._id === postId ? { ...post, dislikes: (post.dislikes || 0) + 1 } : post)
-      );
-    });
-    
+    .commit();
+
+  setPosts(prev =>
+    prev.map(post =>
+      post._id === postId
+        ? {  ...post,  dislikes: (post.dislikes || 0) + 1,
+               likes:
+              previousReaction === "like" ? post.likes - 1 : post.likes,
+          } : post ));
+  const updatedReactions = {
+    ...userReactions,
+    [postId]: "dislike",
+  };
+
+  setUserReactions(updatedReactions);
+  localStorage.setItem("userReactions", JSON.stringify(updatedReactions));
 };
+
+
 // Hämtar de 10 mest gillade inläggen
 // Vi måste göra en ny fetch för att hämta de mest gillade inläggen
 // samma sak för minst gillade
@@ -203,13 +251,20 @@ const fetchLeastLiked = async () => {
     }
     // Nollställ genrer och kategori om man klickar på dem igen
     setSelectedCategory(slug);
+    setShowGenres(true);
+    setSelectedCategory(slug);
     setSelectedGenres([]);
     await fetchGenresByCategory(slug);
     await fetchPostsByCategory(slug);
   };
 
-  useEffect(() => {
+// kollar lokalt om det finns några reaktioner
+// Om det finns så sätter den state till de reaktionerna
+// Hämtar alla inlägg
+useEffect(() => {
     fetchAllPosts();
+    const savedReactions = JSON.parse(localStorage.getItem("userReactions")) || {};
+    setUserReactions(savedReactions);
   }, []);
 
   return (
@@ -262,8 +317,6 @@ const fetchLeastLiked = async () => {
     )}
   </section>
 </section>
-
-
       <section className="posts-section">
         <section className="filter-likes">
   <button onClick={fetchMostLiked}>Mest gillade</button>
@@ -288,8 +341,30 @@ const fetchLeastLiked = async () => {
                 <p>Innehåll: {post.body}</p>
               </section>
               <section className="post-actions">
-                <button onClick={() => handleLike(post._id)}>👍 {post.likes || 0}</button>
-                <button onClick={() => handleDislike(post._id)}>👎 {post.dislikes || 0}</button>
+                    <button
+                        onClick={() => handleLike(post._id)}
+                        disabled={userReactions[post._id] === "like"}
+                        style={{
+                          backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
+                          cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
+                          color: userReactions[post._id] === "like" ? "black" : "",
+                        }}
+                      >
+                        👍 {post.likes || 0}
+                      </button>
+
+                      <button
+                        onClick={() => handleDislike(post._id)}
+                        disabled={userReactions[post._id] === "dislike"}
+                        style={{
+                          backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
+                          cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
+                          color: userReactions[post._id] === "dislike" ? "black" : "",
+                        }}
+                      >
+                        👎 {post.dislikes || 0}
+                    </button>
+
               </section>
             </article>
           ))
