@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CreatePost.css';
-import {client} from '../../sanityClient';
+import { client } from '../../sanityClient';
 
 function CreatePost() {
   const [post, setPost] = useState({
@@ -14,15 +14,32 @@ function CreatePost() {
 
   const [message, setMessage] = useState('');
 
+  const genreOptions = {
+    film: ['Action', 'Drama', 'Thriller', 'Fantasy'],
+    musik: ['Pop', 'Jazz'],
+    böcker: ['Roman', 'Kurslitteratur', 'Fantasy'],
+    spel: ['Action', 'RPG', 'Moba', 'Fantasy'],
+  };
+
   const handleChange = (e) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'category') {
+      setPost((prev) => ({
+        ...prev,
+        category: value,
+        genre: '', // Nollställ genre om kategori ändras
+      }));
+    } else {
+      setPost((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newPost = {
-      _type: 'post', // måste matcha schema i Sanity
+      _type: 'post',
       title: post.title,
       category: post.category,
       year: post.year,
@@ -36,7 +53,6 @@ function CreatePost() {
       await client.create(newPost);
       setMessage('Inlägget har publicerats!');
 
-      // Rensa formuläret
       setPost({
         title: '',
         category: 'film',
@@ -116,13 +132,20 @@ function CreatePost() {
 
           <div className="form-group">
             <label htmlFor="genre">Genre</label>
-            <input
-              type="text"
+            <select
               name="genre"
               id="genre"
               value={post.genre}
               onChange={handleChange}
-            />
+              required
+            >
+              <option value="">Välj genre</option>
+              {genreOptions[post.category].map((g) => (
+                <option key={g} value={g}>
+                  {g}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

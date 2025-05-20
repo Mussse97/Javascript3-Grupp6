@@ -5,6 +5,7 @@ export const client = createClient({
   dataset: "production",
   apiVersion: "2024-05-13", // eller dagens datum
   useCdn: true,
+  token:import.meta.env.VITE_SANITY_WRITE_TOKEN
 });
 
 export const writeClient = createClient({
