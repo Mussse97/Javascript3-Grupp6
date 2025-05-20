@@ -19,7 +19,7 @@
   backdrop-filter: blur(14px);
   background: rgba(255, 255, 255, 0.08);
   padding: 40px 50px; /* förr 30px  */
-  max-width: 700px; /* förr 700px */ 
+  max-width: 700px; /* förr 600px */ 
   width: 100%;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
@@ -47,13 +47,14 @@
 .register-form input,
 .register-form textarea {
   width: 100%;
-  padding: 12px;
+  padding: 25px; /* 12px */
   border-radius: 12px;
   border: none;
   background-color: rgba(255, 255, 255, 0.85);
   font-size: 1rem;
   color: #000;
   transition: box-shadow 0.3s ease;
+  min-width: 300px; /*provar att sätta en min-width*/ 
 }
 
 .register-form input:focus,
@@ -68,7 +69,7 @@
 }
 
 .register-form button {
-  padding: 12px;
+  padding: 20px; /*12px*/
   border: none;
   background-color: #d4af37;
   color: white;
@@ -103,7 +104,7 @@
   }
 
   .register-form form {
-    padding: 20px;
+    padding: 30px; /* förr 20px */
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
