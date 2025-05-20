@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import './CreatePost.css';
-import { client } from '../../sanityClient';
+import React, { useState } from "react";
+import "./CreatePost.css";
+import { client } from "../../sanityClient";
 
 function CreatePost() {
   const [post, setPost] = useState({
-    title: '',
-    category: 'film',
-    year: '',
-    producer: '',
-    genre: '',
-    content: '',
+    title: "",
+    category: "film",
+    year: "",
+    producer: "",
+    genre: "",
+    content: "",
   });
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const genreOptions = {
-    film: ['Action', 'Drama', 'Thriller', 'Fantasy'],
-    musik: ['Pop', 'Jazz'],
-    böcker: ['Roman', 'Kurslitteratur', 'Fantasy'],
-    spel: ['Action', 'RPG', 'Moba', 'Fantasy'],
+    film: ["Action", "Drama", "Thriller", "Fantasy"],
+    musik: ["Pop", "Jazz"],
+    böcker: ["Roman", "Kurslitteratur", "Fantasy"],
+    spel: ["Action", "RPG", "Moba", "Fantasy"],
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'category') {
+    if (name === "category") {
       setPost((prev) => ({
         ...prev,
         category: value,
-        genre: '', // Nollställ genre om kategori ändras
+        genre: "", // Nollställ genre om kategori ändras
       }));
     } else {
       setPost((prev) => ({ ...prev, [name]: value }));
@@ -39,7 +39,7 @@ function CreatePost() {
     e.preventDefault();
 
     const newPost = {
-      _type: 'post',
+      _type: "post",
       title: post.title,
       category: post.category,
       year: post.year,
@@ -51,21 +51,21 @@ function CreatePost() {
 
     try {
       await client.create(newPost);
-      setMessage('Inlägget har publicerats!');
+      setMessage("Inlägget har publicerats!");
 
       setPost({
-        title: '',
-        category: 'film',
-        year: '',
-        producer: '',
-        genre: '',
-        content: '',
+        title: "",
+        category: "film",
+        year: "",
+        producer: "",
+        genre: "",
+        content: "",
       });
 
-      setTimeout(() => setMessage(''), 3000);
+      setTimeout(() => setMessage(""), 3000);
     } catch (error) {
-      console.error('Fel vid publicering:', error);
-      setMessage('Ett fel uppstod. Försök igen.');
+      console.error("Fel vid publicering:", error);
+      setMessage("Ett fel uppstod. Försök igen.");
     }
   };
 

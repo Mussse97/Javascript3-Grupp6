@@ -38,7 +38,10 @@ export default function SinglePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !comment) return;
+    if (!name.trim() || !comment.trim()) {
+      setErrorMsg("Du måste fylla i både namn och kommentar.");
+      return;
+    }
 
     const newComment = {
       _key: new Date().toISOString(),
