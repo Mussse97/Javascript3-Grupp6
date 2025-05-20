@@ -43,9 +43,15 @@ body.dark-theme {
 
 body.light-theme {
   background-color: #f5f5f5;
+
   color: #312f2c;
 }
 
+
+  .single-post {
+    color: #f5f5f5;
+  }
+}
 
 /* #root - Ta bort max-width och centrerar hela sidan 
 #root {

@@ -1,29 +1,29 @@
 import React, { useState } from "react";
-import './RegisterForm.css';
+import "./RegisterForm.css";
 import { writeClient } from "../../sanityClient";
 
 const RegisterForm = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        bio: '',
-    });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [successMsg, setSuccessMsg] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    bio: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
 
-    const handleChange = (e) => {
-        setFormData(prev => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-    };
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError(null);
-        setSuccessMsg(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccessMsg(null);
 
         if (!formData.username || !formData.email) {
             setError('Användarnamn och e-post är obligatoriska fält.');

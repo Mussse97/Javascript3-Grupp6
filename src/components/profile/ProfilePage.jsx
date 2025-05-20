@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { client, writeClient } from '../../sanityClient';
-import { useAuth } from '../../hooks/useAuth';
-import './ProfilePage.css'; 
+import { client, writeClient } from "../../sanityClient";
+import { useAuth } from "../../hooks/useAuth";
+import "./ProfilePage.css";
 
 export default function ProfilePage() {
-    const { id } = useParams();
-    const { user: loggedIn } = useAuth();
-    const isMe = loggedIn?._id === id;
-    const [profile, setProfile] = useState(null);
-    const [form, setForm] = useState({ username: '', bio: '' });
-    const [edit, setEdit] = useState(false); 
-    const [msg, setMsg] = useState('');
+  const { id } = useParams();
+  const { user: loggedIn } = useAuth();
+  const isMe = loggedIn?._id === id;
+  const [profile, setProfile] = useState(null);
+  const [form, setForm] = useState({ username: "", bio: "" });
+  const [edit, setEdit] = useState(false);
+  const [msg, setMsg] = useState("");
+
 
     useEffect(() => {
         client.fetch('*[_type=="user" && _id==$id][0]', { id })
@@ -22,8 +23,8 @@ export default function ProfilePage() {
             .catch(console.error);
     }, [id]);
 
-    const handleChange = e => 
-        setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
     const save = async () => {
         setMsg('Sparar...');
@@ -84,4 +85,7 @@ export default function ProfilePage() {
             </div>
         </section>
     );
+
+  );
+
 }

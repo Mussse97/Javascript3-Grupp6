@@ -1,0 +1,71 @@
+.single-post-wrapper {
+  margin-top: 7rem;
+  padding-inline: 1.5rem;
+  margin-bottom: 3rem;
+
+  .single-post {
+    background: linear-gradient(145deg, #2b4162, #312f2c);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 80%;
+    margin-inline: auto;
+
+    h1 {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .comment-wrapper {
+    background: linear-gradient(
+      145deg,
+      rgba(43, 65, 98, 0.7),
+      rgba(49, 47, 44, 0.7)
+    );
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 70%;
+    margin-top: 1.5rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 15rem;
+
+    .comment-container {
+      margin-block: 1.5rem;
+      border-block: 1px solid rgba(255, 255, 255, 0.3);
+      p {
+        margin-block: 1rem;
+        margin-left: 1rem;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 2.5rem;
+
+      input,
+      textarea {
+        padding: 0.7rem 1rem;
+        max-width: 50%;
+        border: none;
+        border-radius: 5px;
+      }
+
+      input {
+        max-width: 50%;
+      }
+
+      textarea {
+        max-width: 70%;
+        min-height: 14rem;
+        margin-block: 1.5rem;
+      }
+      button {
+        max-width: 20rem;
+      }
+    }
+  }
+}
