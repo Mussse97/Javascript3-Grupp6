@@ -7,6 +7,7 @@ import "./SinglePost.css";
 export default function SinglePost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  // const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     client
@@ -39,8 +40,7 @@ export default function SinglePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !comment.trim()) {
-      setErrorMsg("Du måste fylla i både namn och kommentar.");
-      return;
+      return window.confirm("Du måste fylla i både namn och kommentar.");
     }
 
     const newComment = {
