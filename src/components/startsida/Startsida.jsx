@@ -1,124 +1,103 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './startsida.css';
-
+import { client } from "../../sanityClient"; 
 
 const Startsida = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const [latestPosts, setLatestPosts] = useState([]);
+  const [popularArticles, setPopularArticles] = useState([]);
+
+  const latestQuery = `*[_type == "post"] | order(_createdAt desc)[0...4] {
+    _id,
+    title,
+    "category": category->title,
+    "imageUrl": mainImage.asset->url,
+    body,
+    _createdAt
+  }`;
+
+  const popularQuery = `*[_type == "post"] | order(likes desc)[0...3] {
+    _id,
+    title,
+    "category": category->title,
+    "imageUrl": mainImage.asset->url,
+    body,
+    likes
+  }`;
+  // Vi hämtar texten från body-fältet och begränsar den till ett visst antal ord eftersom korten inte är så stora
+  const getPlainTextExcerpt = (body, wordLimit = 30) => {
+    if (!Array.isArray(body)) return "";
+    const textBlocks = body
+      .filter(block => block._type === "block")
+      .map(block => block.children.map(child => child.text).join(""))
+      .join(" ");
+    return textBlocks.split(" ").slice(0, wordLimit).join(" ") + "...";
   };
 
-  // test data, ersätt med Sanity data när / om vi ska xd
-  const newsItems = [
-    {
-      id: 1,
-      title: "Ny uppdatering till Tetris",
-      category: "Spel",
-      excerpt: "Ändrade formerna från kuber till circklar :O",
-      date: "13 maj 4025"
-    },
-    {
-      id: 2,
-      title: "Påven släpper ny musik",
-      category: "Musik",
-      excerpt: "påven har börjat släppa UK drill musik",
-      date: "10 maj 3025"
-    },
-    {
-      id: 3,
-      title: "Ny bok",
-      category: "Böcker",
-      excerpt: "Någon random lokal författare släpper ny bok",
-      date: "8 maj 1025"
-    },
-    {
-      id: 4,
-      title: "Ny Film",
-      category: "Film",
-      excerpt: "Toy Story 19 är äntligen i produktion!",
-      date: "15 maj 2036"
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const latest = await client.fetch(latestQuery);
+      const popular = await client.fetch(popularQuery);
+      setLatestPosts(latest);
+      setPopularArticles(popular);
+    };
 
-  const popularArticles = [
-    {
-      id: 1,
-      title: "Loser företag torskar stort",
-      excerpt: "Ubisoft förlorar 400 000 000$ i deras nya spel L",
-      imageUrl: "/src/assets/test.jpeg",
-      category: "Spel" // lade till kategori 
-    },
-    {
-      id: 2,
-      title: "Påven får drama",
-      excerpt: "Påvens ny släppta låtar får världen att stå still",
-      imageUrl: "/src/assets/test.jpeg",
-      category: "Musik" // lade till kategori 
-    },
-    {
-      id: 3,
-      title: "Lokal författare gör blunder!",
-      excerpt: "Lokal författare blev skyldig 35kr under deras boksläpp",
-      imageUrl: "/src/assets/test.jpeg",
-      category: "Böcker" // lade till kategori 
-    }
-  ];
+    fetchData();
+  }, []);
 
-  
+
+
   return (
-    <div className="startsida-wrapper">
-      <header >  {/*HEEEEEEEEEEEEADER HÄR*/} 
- 
-      </header>
-
-      <main className="startsida-main">
+    <section className="startsida-wrapper">
+      <header></header>
+       <main className="startsida-main">
         <section
         className="hero-section">
         <h2>Välkommen till MedieTema!</h2>
-        <p className="hero-text">Bättre sida hittar du inte! "visste inte vad jag skulle skriva..."</p>
+        <p className="hero-text">Din plats för diskussioner om film, musik, spel och böcker! Skapa inlägg, dela dina tankar och upptäck nya favoriter</p>
         <button className="cta-button">Utforska Mer!</button>
+        {/* <NavLink className="cta-button" to="/profiles">Profiler</NavLink> */}
       </section>
 
-        <section className="news-section">
-          <h2>Senaste nyheterna</h2>
-          <div className="news-grid">
-            {newsItems.map(item => (
-              <article key={item.id} className="news-card">
-                <span className="news-category">{item.category}</span>
-                <h3>{item.title}</h3>
-                <p>{item.excerpt}</p>
-                <small>{item.date}</small>
-                <a href={`/nyhet/${item.id}`} className="read-more">Läs mer</a>
-              </article>
-            ))}
-          </div>
-        </section>
 
-        <section className="popular-section">
-          <h2>Populärt & Trendigt</h2>
-          <div className="popular-grid">
-            {popularArticles.map(article => (
-              <div key={article.id} className="popular-card">
-                <div className="card-image-container">
-                  <span className="popular-category">{article.category}</span>
-                  <img src={article.imageUrl} alt={article.title} className="card-image" />
-                </div>
-                <div className="popular-card-content">
-                  <h3>{article.title}</h3>
-                  <p>{article.excerpt}</p>
-                  <a href={`/artikel/${article.id}`} className="read-more">Läs mer</a>
-                </div>
-              </div>
-            ))}
-          </div>
+      <section className="news-section">
+        <h2>Senaste inlägg</h2>
+        <section className="news-grid">
+          {latestPosts.map(item => (
+            <article key={item._id} className="news-card">
+              <span className="news-category">{item.category}</span>
+              <h3>{item.title}</h3>
+              <p>{getPlainTextExcerpt(item.body)}</p>
+              <small>{new Date(item._createdAt).toLocaleDateString("sv-SE")}</small>
+              <a href={`/nyhet/${item._id}`} className="read-more">Läs mer</a>
+            </article>
+          ))}
         </section>
+      </section>
+
+      <section className="popular-section">
+        <h2>Populärt & Trendigt</h2>
+        <section className="popular-grid">
+          {popularArticles.map(article => (
+            <section key={article._id} className="popular-card">
+              <section className="card-image-container">
+                <span className="popular-category">{article.category}</span>
+                {article.imageUrl && (
+                  <img src={article.imageUrl} alt={article.title} className="card-image" />
+                )}
+              </section>
+              <section className="popular-card-content">
+                <h3>{article.title}</h3>
+                <p>{getPlainTextExcerpt(article.body)}</p>
+                <a href={`/artikel/${article._id}`} className="read-more">Läs mer</a>
+              </section>
+            </section>
+          ))}
+        </section>
+      </section>
       </main>
- 
-      <footer>  {/*FOOOOOOOOOOOTER HÄR*/} 
+      <footer> {/*FOOOOOOOOOOOTER HÄR*/} </footer>
+    </section>
     
-      </footer>
-    </div>
   );
 };
 
