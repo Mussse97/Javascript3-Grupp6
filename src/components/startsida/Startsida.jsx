@@ -42,7 +42,7 @@ const Startsida = () => {
     };
 
     fetchData();
-  }, []);
+  }, );
 
 
 
