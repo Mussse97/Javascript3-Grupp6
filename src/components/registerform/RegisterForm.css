@@ -7,7 +7,8 @@
 
 .register-form {
   display: flex;
-  flex-direction: column;
+  /*flex-direction: column;*/
+  justify-content: center; /* NY KOD 1 BEHÅLL*/
   align-items: center;
   padding: 5rem 1rem 1rem;
   background: linear-gradient(135deg, #2c3e50, #4ca1af);
@@ -17,14 +18,14 @@
 .register-form form {
   backdrop-filter: blur(14px);
   background: rgba(255, 255, 255, 0.08);
-  padding: 30px;
-  max-width: 600px;
+  padding: 40px 50px; /* förr 30px  */
+  max-width: 700px; /* förr 700px */ 
   width: 100%;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-direction: column; 
+  gap: 20px; /* förr 16px */
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './startsida.css';
 import { client } from "../../sanityClient"; 
 
+
 const Startsida = () => {
   const [latestPosts, setLatestPosts] = useState([]);
   const [popularArticles, setPopularArticles] = useState([]);
