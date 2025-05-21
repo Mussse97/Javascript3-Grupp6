@@ -84,7 +84,7 @@ export default function SinglePost() {
           <p>Inehåll: {post.body}</p>
         </div>
       </section>
-      <div className="comment-wrapper">
+      <section className="comment-wrapper">
         <h2>Kommentarer: </h2>
         {post.comments?.length > 0 ? (
           post.comments.map((comment, id) => (
@@ -115,7 +115,7 @@ export default function SinglePost() {
           <button type="submit">Skicka kommentar</button>
         </form>
         {successMsg && <p style={{ color: "limegreen" }}>{successMsg}</p>}
-      </div>
+      </section>
     </div>
   );
 }
