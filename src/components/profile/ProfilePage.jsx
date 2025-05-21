@@ -43,7 +43,7 @@ export default function ProfilePage() {
 
   return (
     <section className="profile-page">
-      <div>
+      <div> {/*OBS SPARA SPECIFIKT DENNA DIV FÖR ATT CSS SKA FUNGERA KORREKT*/}
         <h2>{isMe ? "Min profil" : `Profil: ${profile.username}`}</h2>
 
         {!edit && (
@@ -85,7 +85,7 @@ export default function ProfilePage() {
         )}
 
         {msg && <p className="msg">{msg}</p>}
-      </div>
+      </div> {/*OBS SPARA SPECIFIKT DENNA DIV FÖR ATT CSS SKA FUNGERA KORREKT*/}
     </section>
   );
 

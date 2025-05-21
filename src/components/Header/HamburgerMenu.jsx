@@ -13,18 +13,18 @@ const HamburgerMenu = () => {
   const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
   // Hantera öppning och stängning av menyn med useState-hooken
   return (
-    <div className="hamburger-container">
-      <div
+    <section className="hamburger-container">
+      <section
         className={`hamburger ${open ? "open" : ""}`}
         onClick={() => setOpen(!open)}
       >
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </section>
       {/* Visa menyn om den är öppen */}
       {open && (
-        <div className="hamburger-menu">
+        <section className="hamburger-menu">
 
           <Link to="/">Hem</Link>
           <Link to="/explore">Utforska</Link>
@@ -33,9 +33,9 @@ const HamburgerMenu = () => {
           <Link to="/create">Skapa inlägg</Link>
           <Link to="/register">Registrera</Link>
 
-        </div>
+        </section>
       )}
-    </div>
+    </section>
   );
 };
 

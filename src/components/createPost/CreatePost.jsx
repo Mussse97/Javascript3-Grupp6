@@ -73,7 +73,7 @@ function CreatePost() {
       current: post.title
         .toLowerCase()
         .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
+        .replace(/[^\w-]+/g, '') // äldre kod... (/[^\w\-]+/g, '')
         .slice(0, 96),
     },
     category: {

@@ -17,7 +17,7 @@ export default function ProfilesList() {
 
     return (
         <section className="profiles-list">
-            <div>
+            <div> {/*OBS SPARA SPECIFIKT DENNA DIV FÖR ATT CSS SKA FUNGERA KORREKT*/}
                 <h2>Användarprofiler</h2>
                 <ul>
                     {users.map(u => (
@@ -29,7 +29,7 @@ export default function ProfilesList() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> {/*OBS SPARA SPECIFIKT DENNA DIV FÖR ATT CSS SKA FUNGERA KORREKT*/}
         </section>
     );
 }

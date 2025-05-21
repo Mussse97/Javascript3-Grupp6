@@ -51,7 +51,7 @@ const RegisterForm = () => {
 
     return (
         <section className="register-form">
-            <div>
+            <section>
                 <form onSubmit={handleSubmit}>
                     <h2>Skapa konto</h2>
                     <label>
@@ -87,7 +87,7 @@ const RegisterForm = () => {
                     {error && <p className="error">{error}</p>}
                     {successMsg && <p className="success">{successMsg}</p>}
                 </form>
-            </div>
+            </section>
         </section>
     );
 };
