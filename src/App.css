@@ -47,6 +47,7 @@ body.light-theme {
   color: #312f2c;
 }
 
+
 body.light-theme .explore h1,
 body.light-theme .explore h2 {
   color: #000; /* Svart text i ljus bakgrund */
@@ -67,6 +68,7 @@ body.dark-theme .popular-section h2 {
   .single-post {
     color: #f5f5f5;
   }
+
 
 
 /* #root - Ta bort max-width och centrerar hela sidan 

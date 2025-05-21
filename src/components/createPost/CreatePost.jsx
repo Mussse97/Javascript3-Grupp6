@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import './CreatePost.css';
 import { client, writeClient } from '../../sanityClient';
 
+
 // komponenten används för att skapa nya inlägg
 function CreatePost() {
   const [post, setPost] = useState({
+
     title: '',
     category: '',
     year: '',
@@ -51,6 +54,7 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     const selectedCategory = categories.find((cat) => cat.title === post.category);
     const selectedGenre = genres.find((g) => g.title === post.genre && g.category?._id === selectedCategory?._id);
@@ -102,10 +106,10 @@ function CreatePost() {
         body: '',
       });
 
-      setTimeout(() => setMessage(''), 3000);
+      setTimeout(() => setMessage(""), 3000);
     } catch (error) {
-      console.error('Fel vid publicering:', error);
-      setMessage('Ett fel uppstod. Försök igen.');
+      console.error("Fel vid publicering:", error);
+      setMessage("Ett fel uppstod. Försök igen.");
     }
   };
 

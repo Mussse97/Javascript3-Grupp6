@@ -127,13 +127,17 @@ export default {
       name: 'category',
       type: 'reference',  
       title: 'Kategori',
-      to: [{ type: 'category' }],
+
+      to: [{type: 'category'}],
+
     },
     {
       name: 'genres',
       type: 'array',  
       title: 'Genrer',
-      of: [{ type: 'reference', to: [{ type: 'genre' }] }],
+s
+      of: [{type: 'reference', to: [{type: 'genre'}]}],
+
     },
     {
       name: 'body',  
@@ -144,7 +148,9 @@ export default {
       name: 'createdAt',
       type: 'datetime',
       title: 'Publicerad',
-      initialValue: () => new Date().toISOString(),  
+
+      initialValue: () => new Date().toISOString(),
+
     },
     {
       name: 'likes',
@@ -180,7 +186,9 @@ export default {
               name: 'createdAt',
               type: 'datetime',
               title: 'Skapad',
-              initialValue: () => new Date().toISOString(),  
+
+              initialValue: () => new Date().toISOString(),
+
             },
           ],
         },
