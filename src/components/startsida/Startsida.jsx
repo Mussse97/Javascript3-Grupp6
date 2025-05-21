@@ -15,15 +15,6 @@ const Startsida = () => {
     _createdAt
   }`;
 
-  // const popularQuery = `*[_type == "post"] | order(likes desc)[0...3] {
-  //   _id,
-  //   title,
-  //   "category": category->title,
-  //   "imageUrl": mainImage.asset->url,
-  //   body,
-  //   likes
-  // }`;
-
 const popularQuery = `*[_type == "post"] | order(coalesce(likes, 0) desc)[0...3] {
   _id,
   title,
