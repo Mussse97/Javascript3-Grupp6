@@ -8,9 +8,10 @@ import './HamburgerMenu.css';
 
 
 // Skapa en funktionell komponent för hamburgermenyn
-const HamburgerMenu = () => {
+const HamburgerMenu = ({ mockUser }) => {
   const [open, setOpen] = useState(false);
-  const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
+  const { user: loggedIn } = mockUser ? { user: mockUser } : useAuth();
+  /*const { user: loggedIn } = useAuth(); Hämtar inloggad användare */
   // Hantera öppning och stängning av menyn med useState-hooken
   return (
     <div className="hamburger-container">

@@ -7,8 +7,10 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 // Definierar Navbar-komponenten som representerar navigeringsfältet i applikationen
-const Navbar = ({ toggleTheme }) => {
-  const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
+const Navbar = ({ toggleTheme, mockUser }) => {
+    const { user: loggedIn } = mockUser ? { user: mockUser } : useAuth();
+
+  /*const { user: loggedIn } = useAuth(); Hämtar inloggad användare */
   return (
     <header className="header-wrapper">
       <nav className="navbar">

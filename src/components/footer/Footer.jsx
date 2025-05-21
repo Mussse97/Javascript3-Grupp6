@@ -1,3 +1,4 @@
+import React from 'react'; // Lägg till denna rad
 import './Footer.css';
 
 function Footer() {
