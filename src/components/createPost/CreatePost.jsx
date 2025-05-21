@@ -1,65 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CreatePost.css';
-import { client } from '../../sanityClient';
+import { client, writeClient } from '../../sanityClient';
 
+// komponenten används för att skapa nya inlägg
 function CreatePost() {
   const [post, setPost] = useState({
     title: '',
-    category: 'film',
+    category: '',
     year: '',
     producer: '',
     genre: '',
-    content: '',
+    body: '',
   });
 
-  const [message, setMessage] = useState('');
+  const [categories, setCategories] = useState([]); // Hämta kategorier
+  const [genres, setGenres] = useState([]); // Hämta genrer
+  const [filteredGenres, setFilteredGenres] = useState([]);   // Filtrera genrer baserat på vald kategori
+  const [message, setMessage] = useState(''); // Meddelande för publicering
+  
+  // Hämta kategorier och genrer från Sanity
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedCategories = await client.fetch(`*[_type == "category"]{_id, title}`);
+      const fetchedGenres = await client.fetch(`*[_type == "genre"]{_id, title, category->{_id, title}}`);
+      setCategories(fetchedCategories);
+      setGenres(fetchedGenres);
+    };
+    fetchData();
+  }, []);
 
-  const genreOptions = {
-    film: ['Action', 'Drama', 'Thriller', 'Fantasy'],
-    musik: ['Pop', 'Jazz'],
-    böcker: ['Roman', 'Kurslitteratur', 'Fantasy'],
-    spel: ['Action', 'RPG', 'Moba', 'Fantasy'],
-  };
+  // Uppdatera filtrerade genres när kategori ändras
+  useEffect(() => {
+    const selectedCategory = categories.find((cat) => cat.title === post.category);
+    if (selectedCategory) {
+      const relatedGenres = genres.filter((g) => g.category?._id === selectedCategory._id);
+      setFilteredGenres(relatedGenres);
+    } else {
+      setFilteredGenres([]);
+    }
+    setPost((prev) => ({ ...prev, genre: '' })); // Töm vald genre
+  }, [post.category, genres, categories]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === 'category') {
-      setPost((prev) => ({
-        ...prev,
-        category: value,
-        genre: '', // Nollställ genre om kategori ändras
-      }));
-    } else {
-      setPost((prev) => ({ ...prev, [name]: value }));
-    }
+    setPost((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newPost = {
-      _type: 'post',
-      title: post.title,
-      category: post.category,
-      year: post.year,
-      producer: post.producer,
-      genre: post.genre,
-      content: post.content,
-      createdAt: new Date().toISOString(),
-    };
+    const selectedCategory = categories.find((cat) => cat.title === post.category);
+    const selectedGenre = genres.find((g) => g.title === post.genre && g.category?._id === selectedCategory?._id);
+
+    if (!selectedCategory || !selectedGenre) {
+      setMessage('Välj en giltig kategori och genre.');
+      return;
+    }
+
+   const newPost = {
+    _type: 'post',
+    title: post.title,
+    slug: {
+      _type: 'slug',
+      // ser till att slug alltid fungerar och förhindrar ÅÄÖ + versaler
+      current: post.title
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .slice(0, 96),
+    },
+    category: {
+      _type: 'reference',
+      _ref: selectedCategory._id,
+    },
+    year: parseInt(post.year, 10),
+    producer: post.producer,
+    genres: [
+      {
+        _type: 'reference',
+        _ref: selectedGenre._id,
+        _key: crypto.randomUUID(),
+      },
+    ],
+    body: post.body,
+    createdAt: new Date().toISOString(),
+};
+
 
     try {
-      await client.create(newPost);
+      await writeClient.create(newPost);
       setMessage('Inlägget har publicerats!');
-
       setPost({
         title: '',
-        category: 'film',
+        category: '',
         year: '',
         producer: '',
         genre: '',
-        content: '',
+        body: '',
       });
 
       setTimeout(() => setMessage(''), 3000);
@@ -70,14 +110,13 @@ function CreatePost() {
   };
 
   return (
-    <div className="create-post-wrapper">
+    <section className="create-post-wrapper">
       <form onSubmit={handleSubmit} className="create-post-form">
         <h2>Skapa nytt inlägg</h2>
         {message && <p className="success">{message}</p>}
 
-        {/* Rad 1: Titel, Kategori, År */}
-        <div className="form-row">
-          <div className="form-group">
+        <section className="form-row">
+          <section className="form-group">
             <label htmlFor="title">Titel</label>
             <input
               type="text"
@@ -87,24 +126,27 @@ function CreatePost() {
               onChange={handleChange}
               required
             />
-          </div>
+          </section>
 
-          <div className="form-group">
+          <section className="form-group">
             <label htmlFor="category">Kategori</label>
             <select
               name="category"
               id="category"
               value={post.category}
               onChange={handleChange}
+              required
             >
-              <option value="film">Film</option>
-              <option value="musik">Musik</option>
-              <option value="böcker">Böcker</option>
-              <option value="spel">Spel</option>
+              <option value="">Välj kategori</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.title}>
+                  {cat.title}
+                </option>
+              ))}
             </select>
-          </div>
+          </section>
 
-          <div className="form-group">
+          <section className="form-group">
             <label htmlFor="year">År</label>
             <input
               type="number"
@@ -114,12 +156,11 @@ function CreatePost() {
               onChange={handleChange}
               placeholder="Ex. 2024"
             />
-          </div>
-        </div>
+          </section>
+        </section>
 
-        {/* Rad 2: Producent, Genre */}
-        <div className="form-row">
-          <div className="form-group">
+        <section className="form-row">
+          <section className="form-group">
             <label htmlFor="producer">Producent</label>
             <input
               type="text"
@@ -128,9 +169,9 @@ function CreatePost() {
               value={post.producer}
               onChange={handleChange}
             />
-          </div>
+          </section>
 
-          <div className="form-group">
+          <section className="form-group">
             <label htmlFor="genre">Genre</label>
             <select
               name="genre"
@@ -138,31 +179,31 @@ function CreatePost() {
               value={post.genre}
               onChange={handleChange}
               required
+              disabled={!filteredGenres.length}
             >
               <option value="">Välj genre</option>
-              {genreOptions[post.category].map((g) => (
-                <option key={g} value={g}>
-                  {g}
+              {filteredGenres.map((g) => (
+                <option key={g._id} value={g.title}>
+                  {g.title}
                 </option>
               ))}
             </select>
-          </div>
-        </div>
+          </section>
+        </section>
 
-        {/* Recension */}
-        <label htmlFor="content">Recension</label>
+        <label htmlFor="body">Recension</label>
         <textarea
-          name="content"
-          id="content"
+          name="body"
+          id="body"
           rows="5"
-          value={post.content}
+          value={post.body}
           onChange={handleChange}
           required
         ></textarea>
 
         <button type="submit">Publicera</button>
       </form>
-    </div>
+    </section>
   );
 }
 
