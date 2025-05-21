@@ -1,17 +1,15 @@
-
-// Importera React och useState för att hantera komponentens tillstånd 
+// Importerar React och useState för att hantera komponentens tillstånd 
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import './HamburgerMenu.css';
 
-
-// Skapa en funktionell komponent för hamburgermenyn
+// Skapar en funktionell komponent för hamburgermenyn
 const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
   const { user: loggedIn } = useAuth(); // Hämtar inloggad användare
-  // Hantera öppning och stängning av menyn med useState-hooken
+  // Hanterar öppning och stängning av menyn med useState-hooken
   return (
     <section className="hamburger-container">
       <section
@@ -39,5 +37,5 @@ const HamburgerMenu = () => {
   );
 };
 
-// Exportera komponenten för användning i andra delar av appen
+// Exporterar komponenten för användning i andra delar av appen
 export default HamburgerMenu;

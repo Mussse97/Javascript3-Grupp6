@@ -1,5 +1,7 @@
+// Importerar CSS-filen för Footer-komponenten 
 import './Footer.css';
 
+// Footer-komponenten som används för att visa sidfoten på webbplatsen, (innehåller länkar till sociala medier)
 function Footer() {
   return (
     <footer className="footer">
@@ -21,5 +23,5 @@ function Footer() {
   );
 }
 
-
+// Exporterar Footer-komponenten så att den kan användas i andra delar av applikationen 
 export default Footer;
