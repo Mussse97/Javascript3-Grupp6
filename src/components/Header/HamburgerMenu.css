@@ -25,7 +25,8 @@
 
 /* Strecken i hamburger-menyn */
 .hamburger span {
-  background-color: #d4af37;
+  /*background-color: #d4af37;*/
+  background-color: #f5f5f5;
   position: absolute;
   height: 3px;
   width: 100%;
@@ -65,7 +66,8 @@
   position: absolute;
   top: 55px;
   right: 0.5rem;
-  background: #312f2c;
+  /*background: #312f2c;*/ 
+  background: #385f71;
   padding: 0.8rem;
   display: flex;
   flex-direction: column;
@@ -75,6 +77,7 @@
 
 /* Länkar i hamburger-menyn */ 
 .hamburger-menu a {
-  color: #d4af37;
+  /*color: #d4af37;*/
+  color: #f5f5f5;
   text-decoration: none;
 }

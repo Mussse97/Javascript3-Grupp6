@@ -136,7 +136,7 @@ export default {
       name: 'genres',
       type: 'array',  
       title: 'Genrer',
-s
+
       of: [{type: 'reference', to: [{type: 'genre'}]}],
 
     },

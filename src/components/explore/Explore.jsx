@@ -272,14 +272,17 @@ useEffect(() => {
     <main className="explore">
       <header className="explore-header">
         <section className="search-section">
-          <h1>Upptäck senaste inläggen</h1>
+          <h1 className="explore-heading">Upptäck senaste inläggen</h1>
+          <div className="search-bar">
           <input
               type="text"
               placeholder="Sök..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            
             <button onClick={handleSearch}>Sök</button>
+            </div>
         </section>
       </header>
 
