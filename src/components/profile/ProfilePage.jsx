@@ -58,6 +58,7 @@ export default function ProfilePage() {
           </>
         )}
 
+
         {edit && (
           <>
             <label>
@@ -87,4 +88,5 @@ export default function ProfilePage() {
       </div>
     </section>
   );
+
 }
