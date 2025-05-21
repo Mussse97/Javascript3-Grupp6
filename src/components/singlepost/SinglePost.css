@@ -63,10 +63,18 @@
         max-width: 50%;
       }
 
+      input::placeholder {
+        color: #ccc;
+      }
+
       textarea {
         max-width: 70%;
         min-height: 14rem;
         margin-block: 1.5rem;
+      }
+
+      textarea::placeholder {
+        color: #ccc;
       }
       button {
         max-width: 20rem;
