@@ -5,6 +5,7 @@ import  {writeClient}  from "../../sanityClient";
 import "./Explore.css";
 import { Link } from "react-router-dom";
 
+
 const Explore = () => {
   const [posts, setPosts] = useState([]); // Inlägg
   const [selectedCategory, setSelectedCategory] = useState(null); // Vald kategori
@@ -128,6 +129,7 @@ const Explore = () => {
       _id,
       title,
       year,
+      slug,
       producer,
       category->{title, slug},
       genres[]->{title},

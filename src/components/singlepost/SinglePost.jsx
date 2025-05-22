@@ -7,6 +7,7 @@ import "./SinglePost.css";
 export default function SinglePost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  // const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     client
@@ -38,7 +39,9 @@ export default function SinglePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !comment) return;
+    if (!name.trim() || !comment.trim()) {
+      return window.confirm("Du måste fylla i både namn och kommentar.");
+    }
 
     const newComment = {
       _key: new Date().toISOString(),
@@ -81,7 +84,7 @@ export default function SinglePost() {
           <p>Inehåll: {post.body}</p>
         </div>
       </section>
-      <div className="comment-wrapper">
+      <section className="comment-wrapper">
         <h2>Kommentarer: </h2>
         {post.comments?.length > 0 ? (
           post.comments.map((comment, id) => (
@@ -111,8 +114,8 @@ export default function SinglePost() {
           />
           <button type="submit">Skicka kommentar</button>
         </form>
-        {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
-      </div>
+        {successMsg && <p style={{ color: "limegreen" }}>{successMsg}</p>}
+      </section>
     </div>
   );
 }
