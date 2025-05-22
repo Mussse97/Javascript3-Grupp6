@@ -29,12 +29,13 @@ const Navbar = ({ toggleTheme }) => {
           <Link to={"/"}>Hem</Link>
           <Link to="/explore">Utforska</Link>
           <NavLink to="/profiles">Profiler</NavLink>
-          {loggedIn && <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>}
+          {loggedIn && (
+            <NavLink to={`/profile/${loggedIn._id}`}>Min profil</NavLink>
+          )}
           <Link to="/create">Skapa inlägg</Link>
           <Link to="/register">Registrera</Link>
-        
-
         </section>
+
 
         {/* Hamburger-meny - visas bara i mobil-läge */}
         <HamburgerMenu />

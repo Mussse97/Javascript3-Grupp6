@@ -1,14 +1,15 @@
 /* Allmän layout */
 .explore {
+
+  /*  background-color: #312f2c; */
   color: white;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   padding: 2rem;
 }
 
 .explore-header {
   text-align: center;
   margin-bottom: 2rem;
-  
 }
 
 .search-section {
@@ -71,7 +72,7 @@
 }
 
 .category-btn {
-  background-color: #2B4162;
+  background-color: #2b4162;
   border: none;
   padding: 0.8rem 1.2rem;
   color: white;
@@ -93,7 +94,7 @@
 .filter-section {
   max-width: 600px;
   margin: 0 auto 2rem;
-  background-color: #2B4162;
+  background-color: #2b4162;
   padding: 1rem;
   border-radius: 10px;
   position: relative;
@@ -134,10 +135,10 @@
 }
 
 .post-card {
-  background: linear-gradient(145deg, #2B4162, #312f2c);
+  background: linear-gradient(145deg, #2b4162, #312f2c);
   padding: 1.5rem;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
 }
 
@@ -181,7 +182,7 @@
 }
 
 .filter-likes button {
-  background-color: #2B4162;
+  background-color: #2b4162;
   border: 1px solid #d4af37;
   color: #d4af37;
   padding: 0.6rem 1.2rem;
@@ -196,172 +197,10 @@
   color: #312f2c;
 }
 
-
-/* .explore {
-/*  background-color: #312f2c; 
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
-  padding: 2rem;
-}
-
-.explore-header {
+.no-results-message {
   text-align: center;
-  margin-bottom: 2rem;
-  
-}
-
-.search-section {
-  gap: 1rem;
-  margin-top: 100px;
-}
-
-.search-section input {
-  padding: 0.7rem 1rem;
-  width: 300px;
-  border: none;
-  border-radius: 5px;
-}
-
-.search-section button {
-  padding: 1rem 1rem;
-  background-color: #d4af37;
-  border: none;
-  color: #312f2c;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-} 
-
-.category-buttons {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.category-btn {
-  background-color: #2B4162;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  color: white;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.category-btn:hover {
-  background-color: #1f2e47;
-}
-
-.category-btn.active {
-  background-color: #d4af37;
-  color: #312f2c;
-}
-
-/* Filtrering 
-.filter-section {
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  background-color: #2B4162;
-  padding: 1rem;
-  border-radius: 10px;
-  position: relative;
-}
-
-.filter-section h2 {
-  margin: 0;
-  cursor: pointer;
-  user-select: none;
-  font-size: 1.2rem;
-  color: #d4af37;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.genre-filters {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease;
-}
-
-.genre-filters.open {
-  max-height: 500px; /* eller tillräckligt stort för att rymma alla 
-  margin-top: 1rem;
-}
-
-.genre-filters label {
-  display: block;
-  margin: 0.5rem 0;
-}
-
-/* Inlägg 
-.posts-section {
-  display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.post-card {
-  background: linear-gradient(145deg, #2B4162, #312f2c);
+  font-size: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 1.5rem;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
 }
-
-.post-card:hover {
-  transform: scale(1.02);
-}
-
-.post-info h3 {
-  color: #d4af37;
-  margin-bottom: 0.5rem;
-}
-
-.post-info p {
-  margin: 0.3rem 0;
-}
-
-.post-actions {
-  margin-top: 1rem;
-}
-
-.post-actions button {
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: 1px solid #d4af37;
-  border-radius: 5px;
-  color: #d4af37;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.post-actions button:hover {
-  background-color: #d4af37;
-  color: #312f2c;
-}
-
-/* Filter-knappar 
-.filter-likes {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.filter-likes button {
-  background-color: #2B4162;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  padding: 0.6rem 1.2rem;
-  margin: 0 0.5rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.filter-likes button:hover {
-  background-color: #d4af37;
-  color: #312f2c;
-} */
