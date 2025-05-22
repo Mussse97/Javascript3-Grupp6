@@ -116,7 +116,7 @@ export default {
     },
     {
       name: 'year',
-      type: 'number',  
+      type: 'number',
       title: 'År',
     },
     {
@@ -126,22 +126,20 @@ export default {
     },
     {
       name: 'category',
-      type: 'reference',  
+      type: 'reference',
       title: 'Kategori',
 
       to: [{type: 'category'}],
-
     },
     {
       name: 'genres',
-      type: 'array',  
+      type: 'array',
       title: 'Genrer',
-s
-      of: [{type: 'reference', to: [{type: 'genre'}]}],
 
+      of: [{type: 'reference', to: [{type: 'genre'}]}],
     },
     {
-      name: 'body',  
+      name: 'body',
       type: 'text',
       title: 'Recension/Innehåll',
     },
@@ -151,7 +149,6 @@ s
       title: 'Publicerad',
 
       initialValue: () => new Date().toISOString(),
-
     },
     {
       name: 'likes',
@@ -189,11 +186,10 @@ s
               title: 'Skapad',
 
               initialValue: () => new Date().toISOString(),
-
             },
           ],
         },
       ],
     },
   ],
-};
+}

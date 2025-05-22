@@ -3,7 +3,6 @@ import "./startsida.css";
 import { client } from "../../sanityClient";
 import { Link } from "react-router-dom";
 
-
 const Startsida = () => {
   const [latestPosts, setLatestPosts] = useState([]);
   const [popularArticles, setPopularArticles] = useState([]);
@@ -18,10 +17,7 @@ const Startsida = () => {
     _createdAt
   }`;
 
-
-
-
-const popularQuery = `*[_type == "post" && defined(slug.current)]] | order(coalesce(likes, 0) desc)[0...3] {
+  const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coalesce(likes, 0) desc)[0...3] {
   _id,
   title,
   slug,
@@ -30,7 +26,6 @@ const popularQuery = `*[_type == "post" && defined(slug.current)]] | order(coale
   body,
   likes
 }`;
-
 
   // Vi hämtar texten från body-fältet och begränsar den till ett visst antal ord eftersom korten inte är så stora
   const getPlainTextExcerpt = (body, wordLimit = 30) => {
@@ -51,7 +46,7 @@ const popularQuery = `*[_type == "post" && defined(slug.current)]] | order(coale
     };
 
     fetchData();
-  }, );
+  });
 
   return (
     <section className="startsida-wrapper">
