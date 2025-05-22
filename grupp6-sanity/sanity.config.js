@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'Grupp6-sanity',
 
-  projectId: 'vjiz9cdi',
+  projectId: 'xtbj8j30',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

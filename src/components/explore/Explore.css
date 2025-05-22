@@ -1,37 +1,66 @@
 /* Allmän layout */
 .explore {
-/*  background-color: #312f2c; */
+
+  /*  background-color: #312f2c; */
   color: white;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   padding: 2rem;
 }
 
 .explore-header {
   text-align: center;
   margin-bottom: 2rem;
-  
 }
 
 .search-section {
+  display: flex;
+  flex-direction: column; /* Lägg barnen ovanpå varandra */
+  align-items: center;     /* Centrera horisontellt */
   gap: 1rem;
   margin-top: 100px;
+} 
+
+.search-section h1 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.explore-heading {
+  font-size: 1.8rem;
+  padding: 1rem 0.6rem;
+  text-align: center;
 }
 
 .search-section input {
-  padding: 0.7rem 1rem;
-  width: 300px;
+  padding: 0.7rem 2.5rem 0.7rem 2.5rem;
+  width: 280px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #312f2c;
+  position: relative;
+  outline: none;
 }
 
 .search-section button {
-  padding: 0.7rem 1.5rem;
+  padding: 0.35rem 1.3rem;
   background-color: #d4af37;
   border: none;
   color: #312f2c;
   font-weight: bold;
+  font-size: 1.2rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
 }
 
 .category-buttons {
@@ -43,7 +72,7 @@
 }
 
 .category-btn {
-  background-color: #2B4162;
+  background-color: #2b4162;
   border: none;
   padding: 0.8rem 1.2rem;
   color: white;
@@ -65,7 +94,7 @@
 .filter-section {
   max-width: 600px;
   margin: 0 auto 2rem;
-  background-color: #2B4162;
+  background-color: #2b4162;
   padding: 1rem;
   border-radius: 10px;
   position: relative;
@@ -106,10 +135,10 @@
 }
 
 .post-card {
-  background: linear-gradient(145deg, #2B4162, #312f2c);
+  background: linear-gradient(145deg, #2b4162, #312f2c);
   padding: 1.5rem;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
 }
 
@@ -153,7 +182,7 @@
 }
 
 .filter-likes button {
-  background-color: #2B4162;
+  background-color: #2b4162;
   border: 1px solid #d4af37;
   color: #d4af37;
   padding: 0.6rem 1.2rem;
@@ -166,4 +195,12 @@
 .filter-likes button:hover {
   background-color: #d4af37;
   color: #312f2c;
+}
+
+.no-results-message {
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 15px;
 }

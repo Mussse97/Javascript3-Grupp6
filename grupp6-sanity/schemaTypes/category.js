@@ -1,3 +1,4 @@
+// Exporterar ett schema för Sanity CMS som definierar strukturen för kategoridata som ska lagras i Sanity CMS
 export default {
   name: 'category',
   type: 'document',
