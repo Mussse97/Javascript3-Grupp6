@@ -1,3 +1,4 @@
+// Exporterar ett schema för Sanity CMS
 export default {
   name: 'genre',
   type: 'document',

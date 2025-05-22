@@ -93,6 +93,9 @@
 //   ],
 // }
 
+
+// Exporterar ett schema för Sanity CMS som definierar strukturen för inläggsdata som ska lagras i Sanity CMS
+// och innehåller fält för titel, slug, år, producent, kategori, genrer, innehåll, likes, dislikes och kommentarer
 export default {
   name: 'post',
   type: 'document',

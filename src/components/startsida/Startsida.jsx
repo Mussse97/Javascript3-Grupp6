@@ -17,7 +17,9 @@ const Startsida = () => {
     _createdAt
   }`;
 
-  const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coalesce(likes, 0) desc)[0...3] {
+
+const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coalesce(likes, 0) desc)[0...3] {
+
   _id,
   title,
   slug,

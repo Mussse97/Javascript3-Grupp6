@@ -48,6 +48,10 @@ body {
   box-shadow: 0 15px 30px rgba(43, 65, 98, 0.2);
   position: relative;
   overflow: hidden;
+  background-image: url('../../assets/blablabla.jpeg');
+  background-size: cover;      /* eller contain */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .hero-section::before {
@@ -171,6 +175,10 @@ body {
   position: relative;
   overflow: hidden;
   border: none;
+  background-image: url('../../assets/modern.jpg');
+  background-size: cover;      /* eller contain */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .news-card::before {
@@ -259,6 +267,10 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   border: none;
+  background-image: url('../../assets/modern.jpg');
+  background-size: cover;      /* eller contain */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .popular-card:hover {
