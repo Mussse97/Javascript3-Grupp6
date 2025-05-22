@@ -15,6 +15,8 @@ const Explore = () => {
   const [showGenres, setShowGenres] = useState(false);
   const [userReactions, setUserReactions] = useState({});
   const [isSearching, setIsSearching] = useState(false); // Om något skrivs i sökfältet
+  const [activeSort, setActiveSort] = useState(null); // 'most' | 'least' | null
+
 
   const categories = [
     { title: "🎮 Spel", slug: "spel" },
@@ -84,6 +86,15 @@ const Explore = () => {
     }
   };
 
+  const getGenreCount = (genreTitle) => {
+  return posts.filter(
+    (post) =>
+      post.category?.slug?.current === selectedCategory &&
+      post.genres?.some((g) => g.title === genreTitle)
+  ).length;
+};
+
+
 const handleSearchChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -111,15 +122,27 @@ const handleSearchChange = (e) => {
     }
   };
 
-  const fetchMostLiked = () => {
-    const sorted = [...posts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-    setFilteredPosts(sorted.slice(0, 10));
-  };
+const fetchMostLiked = () => {
+  if (activeSort === 'most') {
+    setFilteredPosts(posts);
+    setActiveSort(null);
+    return;
+  }
+  const sorted = [...posts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+  setFilteredPosts(sorted.slice(0, 10));
+  setActiveSort('most');
+};
 
-  const fetchLeastLiked = () => {
-    const sorted = [...posts].sort((a, b) => (b.dislikes || 0) - (a.dislikes || 0));
-    setFilteredPosts(sorted.slice(0, 10));
-  };
+const fetchLeastLiked = () => {
+  if (activeSort === 'least') {
+    setFilteredPosts(posts);
+    setActiveSort(null);
+    return;
+  }
+  const sorted = [...posts].sort((a, b) => (b.dislikes || 0) - (a.dislikes || 0));
+  setFilteredPosts(sorted.slice(0, 10));
+  setActiveSort('least');
+};
 
   const handleLike = async (postId) => {
     const prev = userReactions[postId];
@@ -206,28 +229,43 @@ const handleSearchChange = (e) => {
           Filtrera {showGenres ? "▲" : "▼"}
         </h2>
         <section className={`genre-filters ${showGenres ? "open" : ""}`}>
-          {genres.length === 0 ? (
-            <p>Inga genrer tillgängliga</p>
-          ) : (
-            genres.map((genre) => (
-              <label key={genre._id}>
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleGenreChange(e, genre.title)}
-                  checked={selectedGenres.includes(genre.title)}
-                />
-                {genre.title}
-              </label>
-            ))
-          )}
+         {genres.length === 0 ? (
+              <p>Inga genrer tillgängliga</p>
+            ) : (
+              genres.map((genre) => (
+                <label key={genre._id}>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleGenreChange(e, genre.title)}
+                    checked={selectedGenres.includes(genre.title)}
+                  />
+                  {genre.title} ({getGenreCount(genre.title)})
+                </label>
+              ))
+            )}
+
         </section>
       </section>
 
       <section className="posts-section">
-        <section className="filter-likes">
-          <button onClick={fetchMostLiked}>Mest gillade</button>
-          <button onClick={fetchLeastLiked}>Minst gillade</button>
+       <section className="filter-likes">
+          <button
+            onClick={fetchMostLiked}
+            style={{
+              backgroundColor: activeSort === 'most' ? '#d4af37' : '',
+              color: activeSort === 'most' ? 'black' : '',}}>
+               Mest gillade
+          </button>
+
+          <button
+            onClick={fetchLeastLiked}
+            style={{
+              backgroundColor: activeSort === 'least' ? '#d4af37' : '',
+              color: activeSort === 'least' ? 'black' : '', }}>
+              Minst gillade
+          </button>
         </section>
+
 
         <h2>Inlägg</h2>
 

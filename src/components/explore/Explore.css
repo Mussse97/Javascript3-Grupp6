@@ -125,7 +125,13 @@
 .genre-filters label {
   display: block;
   margin: 0.5rem 0;
+  gap: 0.5rem; 
 }
+
+.genre-filters label input {
+  margin-right: 8px; /* flyttar bara texten, inte boxen */
+}
+
 
 /* Inlägg */
 .posts-section {
