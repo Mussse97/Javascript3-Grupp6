@@ -277,7 +277,7 @@ const Explore = () => {
       <header className="explore-header">
         <section className="search-section">
           <h1 className="explore-heading">Upptäck senaste inläggen</h1>
-          <div className="search-bar">
+          <section className="search-bar">
           <input
 
             type="text"
@@ -285,7 +285,7 @@ const Explore = () => {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-
+        </section>
         </section>
       </header>
 
