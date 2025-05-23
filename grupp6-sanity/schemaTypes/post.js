@@ -1,3 +1,4 @@
+
 // Exporterar ett schema för Sanity CMS som definierar strukturen för inläggsdata som ska lagras i Sanity CMS
 // och innehåller fält för titel, slug, år, producent, kategori, genrer, innehåll, likes, dislikes och kommentarer
 export default {
@@ -44,6 +45,7 @@ export default {
       title: 'Genrer',
 
       of: [{type: 'reference', to: [{type: 'genre'}]}],
+
     },
     {
       name: 'body',

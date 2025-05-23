@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { client } from "../../sanityClient";
-import { writeClient } from "../../sanityClient";
 
+import React, { useEffect, useState } from "react";
+import { client, writeClient } from "../../sanityClient";
 import "./Explore.css";
 import { Link } from "react-router-dom";
 
 const Explore = () => {
-  const [posts, setPosts] = useState([]); // Inlägg
-  const [selectedCategory, setSelectedCategory] = useState(null); // Vald kategori
-  const [genres, setGenres] = useState([]); // Valda genrer
-  const [selectedGenres, setSelectedGenres] = useState([]); // Valda genrer
-  const [searchTerm, setSearchTerm] = useState(""); // Sökfält
-  const [showGenres, setShowGenres] = useState(false); // Filtrering boxen
-  const [userReactions, setUserReactions] = useState({}); // Användarens reaktioner (gilla/ogilla)
-  const [filteredPosts, setFilteredPosts] = useState([]); // Filtrerade inlägg
+  const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [genres, setGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showGenres, setShowGenres] = useState(false);
+  const [userReactions, setUserReactions] = useState({});
   const [isSearching, setIsSearching] = useState(false); // Om något skrivs i sökfältet
+  const [activeSort, setActiveSort] = useState(null); // 'most' | 'least' | null
+
 
   const categories = [
     { title: "🎮 Spel", slug: "spel" },
@@ -22,99 +23,79 @@ const Explore = () => {
     { title: "🎵 Musik", slug: "musik" },
     { title: "📚 Böcker", slug: "bocker" },
   ];
-  // Hämtar alla inlägg
+
   const fetchAllPosts = async () => {
     const query = `*[_type == "post"]{
-      _id,
-      title,
-      slug,
-      year,
-      producer,
+      _id, title, slug, year, producer,
       category->{title, slug},
       genres[]->{title},
-      body,
-      likes,
-      dislikes
+      body, likes, dislikes
     }`;
     const result = await client.fetch(query);
     setPosts(result);
     setFilteredPosts(result);
   };
-  // Hämtar inlägg baserat på vald kategori
-  const fetchPostsByCategory = async (slug) => {
-    const query = `
-      *[_type == "post" && category->slug.current == $slug]{
-        _id,
-        title,
-        slug,
-        year,
-        producer,
-        category->{title, slug},
-        genres[]->{title},
-        body,
-        likes,
-        dislikes
-      }
-    `;
-    const result = await client.fetch(query, { slug });
-    setPosts(result);
-  };
-  // Hämtar genrer för en vald kategori
+
   const fetchGenresByCategory = async (slug) => {
-    const query = `
-      *[_type == "genre" && category->slug.current == $slug]{
-        _id,
-        title
-      }
-    `;
+    const query = `*[_type == "genre" && category->slug.current == $slug]{ _id, title }`;
     const result = await client.fetch(query, { slug });
     setGenres(result);
   };
-  // Hämtar genrer för en vald kategori
-  const handleGenreChange = async (e, genreTitle) => {
-    const checked = e.target.checked;
-    let updatedGenres;
 
-    if (checked) {
-      updatedGenres = [...selectedGenres, genreTitle];
-    } else {
-      updatedGenres = selectedGenres.filter((g) => g !== genreTitle);
+  const handleCategoryClick = async (slug) => {
+    if (selectedCategory === slug) {
+      setSelectedCategory(null);
+      setGenres([]);
+      setSelectedGenres([]);
+      setFilteredPosts(posts);
+      return;
     }
+    setSelectedCategory(slug);
+    setShowGenres(true);
+    setSelectedGenres([]);
+    const filtered = posts.filter(
+      (post) => post.category?.slug?.current === slug
+    );
+    setFilteredPosts(filtered);
+    await fetchGenresByCategory(slug);
+  };
+
+  
+  const handleGenreChange = (e, genreTitle) => {
+    const checked = e.target.checked;
+    let updatedGenres = checked
+      ? [...selectedGenres, genreTitle]
+      : selectedGenres.filter((g) => g !== genreTitle);
 
     setSelectedGenres(updatedGenres);
 
-    // Om ingen genre är vald, hämta bara kategori-filter (utan genrefilter)
-    if (updatedGenres.length === 0) {
-      fetchPostsByCategory(selectedCategory);
-      return;
+    if (selectedCategory && updatedGenres.length > 0) {
+      const filtered = posts.filter(
+        (post) =>
+          post.category?.slug?.current === selectedCategory &&
+          post.genres?.some((g) => updatedGenres.includes(g.title))
+      );
+      setFilteredPosts(filtered);
+    } else if (selectedCategory) {
+      const filtered = posts.filter(
+        (post) => post.category?.slug?.current === selectedCategory
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts(posts);
     }
-
-    // Filtrera på både kategori och genre
-    const query = `
-    *[_type == "post" && category->slug.current == $slug && count(genres[@->title in $genreTitles]) > 0]{
-      _id,
-      title,
-      slug,
-      year,
-      producer,
-      category->{title, slug},
-      genres[]->{title},
-      body,
-      likes,
-      dislikes
-    }
-  `;
-
-    const result = await client.fetch(query, {
-      slug: selectedCategory,
-      genreTitles: updatedGenres,
-    });
-
-    setPosts(result);
   };
 
-  // Dynamisk sökning
-  const handleSearchChange = (e) => {
+  const getGenreCount = (genreTitle) => {
+  return posts.filter(
+    (post) =>
+      post.category?.slug?.current === selectedCategory &&
+      post.genres?.some((g) => g.title === genreTitle)
+  ).length;
+};
+
+
+const handleSearchChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
 
@@ -141,141 +122,85 @@ const Explore = () => {
     }
   };
 
-  const handleLike = async (postId) => {
-    const previousReaction = userReactions[postId];
+const fetchMostLiked = () => {
+  if (activeSort === 'most') {
+    setFilteredPosts(posts);
+    setActiveSort(null);
+    return;
+  }
+  const sorted = [...posts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+  setFilteredPosts(sorted.slice(0, 10));
+  setActiveSort('most');
+};
 
-    // Om användaren redan gillat, gör inget
-    if (previousReaction === "like") return;
-    // Om användaren ogillat tidigare, ta bort en dislike
-    if (previousReaction === "dislike") {
+const fetchLeastLiked = () => {
+  if (activeSort === 'least') {
+    setFilteredPosts(posts);
+    setActiveSort(null);
+    return;
+  }
+  const sorted = [...posts].sort((a, b) => (b.dislikes || 0) - (a.dislikes || 0));
+  setFilteredPosts(sorted.slice(0, 10));
+  setActiveSort('least');
+};
+
+  const handleLike = async (postId) => {
+    const prev = userReactions[postId];
+    if (prev === "like") return;
+    if (prev === "dislike") {
       await writeClient.patch(postId).dec({ dislikes: 1 }).commit();
     }
-
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ likes: 0 })
-      .inc({ likes: 1 })
-      .commit();
-
-    setPosts((prev) =>
-      prev.map((post) =>
+    await writeClient.patch(postId).setIfMissing({ likes: 0 }).inc({ likes: 1 }).commit();
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
         post._id === postId
           ? {
               ...post,
               likes: (post.likes || 0) + 1,
-              dislikes:
-                previousReaction === "dislike"
-                  ? post.dislikes - 1
-                  : post.dislikes,
+              dislikes: prev === "dislike" ? post.dislikes - 1 : post.dislikes,
             }
           : post
       )
     );
-    const updatedReactions = {
-      ...userReactions,
-      [postId]: "like",
-    };
-    setUserReactions(updatedReactions);
-    localStorage.setItem("userReactions", JSON.stringify(updatedReactions));
+    const updated = { ...userReactions, [postId]: "like" };
+    setUserReactions(updated);
+    localStorage.setItem("userReactions", JSON.stringify(updated));
   };
-  // I denna funktion kollar vi om användaren redan ogillat inlägget
-  // Om de inte har det så lägger den till en dislike och pushar det till sanity
-  // Om de har gillat inlägget tidigare så tar den bort en like och lägger till en dislike
-  // Sedan uppdaterar den state och localStorage
-  // Sist så uppdaterar den gränsen
-  const handleDislike = async (postId) => {
-    const previousReaction = userReactions[postId];
 
-    // Om användaren redan ogillat, gör inget
-    if (previousReaction === "dislike") return;
-    // Om användaren gillat tidigare, ta bort en like
-    if (previousReaction === "like") {
+  const handleDislike = async (postId) => {
+    const prev = userReactions[postId];
+    if (prev === "dislike") return;
+    if (prev === "like") {
       await writeClient.patch(postId).dec({ likes: 1 }).commit();
     }
-
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ dislikes: 0 })
-      .inc({ dislikes: 1 })
-      .commit();
-
-    setPosts((prev) =>
-      prev.map((post) =>
+    await writeClient.patch(postId).setIfMissing({ dislikes: 0 }).inc({ dislikes: 1 }).commit();
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
         post._id === postId
           ? {
               ...post,
               dislikes: (post.dislikes || 0) + 1,
-              likes: previousReaction === "like" ? post.likes - 1 : post.likes,
+              likes: prev === "like" ? post.likes - 1 : post.likes,
             }
           : post
       )
     );
-    const updatedReactions = {
-      ...userReactions,
-      [postId]: "dislike",
-    };
-
-    setUserReactions(updatedReactions);
-    localStorage.setItem("userReactions", JSON.stringify(updatedReactions));
+    const updated = { ...userReactions, [postId]: "dislike" };
+    setUserReactions(updated);
+    localStorage.setItem("userReactions", JSON.stringify(updated));
   };
 
-  // Hämtar de 10 mest gillade inläggen
-  // Vi måste göra en ny fetch för att hämta de mest gillade inläggen
-  // samma sak för minst gillade
-  const fetchMostLiked = async () => {
-    const query = `*[_type == "post"] | order(coalesce(likes, 0) desc)[0...10] {
-    _id, title,slug,
-    likes,dislikes,
-    year, producer,category->{title},
-    genres[]->{title},
-    body
-  }`;
-    const result = await client.fetch(query);
-    setPosts(result);
-  };
-  // Hämtar de 10 mest ogillade inläggen
-  const fetchLeastLiked = async () => {
-    const query = `*[_type == "post"] | order(coalesce(dislikes, 0) desc)[0...10] {
-    _id, title,slug,likes,dislikes,year,producer,category->{title},
-    genres[]->{title},
-    body
-  }`;
-    const result = await client.fetch(query);
-    setPosts(result);
-  };
-
-  const handleCategoryClick = async (slug) => {
-    // Om man klickar på samma kategori igen -> nollställ
-    if (selectedCategory === slug) {
-      setSelectedCategory(null);
-      setGenres([]);
-      setSelectedGenres([]);
-      fetchAllPosts();
-      return;
-    }
-    // Nollställ genrer och kategori om man klickar på dem igen
-    setSelectedCategory(slug);
-    setShowGenres(true);
-    setSelectedCategory(slug);
-    setSelectedGenres([]);
-    await fetchGenresByCategory(slug);
-    await fetchPostsByCategory(slug);
-  };
-
-  // kollar lokalt om det finns några reaktioner
-  // Om det finns så sätter den state till de reaktionerna
-  // Hämtar alla inlägg
   useEffect(() => {
     fetchAllPosts();
-    const savedReactions =
-      JSON.parse(localStorage.getItem("userReactions")) || {};
-    setUserReactions(savedReactions);
+    const saved = JSON.parse(localStorage.getItem("userReactions")) || {};
+    setUserReactions(saved);
   }, []);
 
   return (
     <main className="explore">
       <header className="explore-header">
         <section className="search-section">
+
           <h1 className="explore-heading">Upptäck senaste inläggen</h1>
           <section className="search-bar">
             <input
@@ -289,6 +214,7 @@ const Explore = () => {
             </a>
           </section>
 
+
         </section>
       </header>
 
@@ -296,9 +222,7 @@ const Explore = () => {
         {categories.map((cat) => (
           <button
             key={cat.slug}
-            className={`category-btn ${
-              selectedCategory === cat.slug ? "active" : ""
-            }`}
+            className={`category-btn ${selectedCategory === cat.slug ? "active" : ""}`}
             onClick={() => handleCategoryClick(cat.slug)}
           >
             {cat.title}
@@ -311,36 +235,52 @@ const Explore = () => {
           Filtrera {showGenres ? "▲" : "▼"}
         </h2>
         <section className={`genre-filters ${showGenres ? "open" : ""}`}>
-          {genres.length === 0 ? (
-            <p>Inga genrer tillgängliga</p>
-          ) : (
-            genres.map((genre) => (
-              <label key={genre._id}>
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleGenreChange(e, genre.title)}
-                  checked={selectedGenres.includes(genre.title)}
-                />
-                {genre.title}
-              </label>
-            ))
-          )}
+         {genres.length === 0 ? (
+              <p>Inga genrer tillgängliga</p>
+            ) : (
+              genres.map((genre) => (
+                <label key={genre._id}>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleGenreChange(e, genre.title)}
+                    checked={selectedGenres.includes(genre.title)}
+                  />
+                  {genre.title} ({getGenreCount(genre.title)})
+                </label>
+              ))
+            )}
+
         </section>
       </section>
+
       <section className="posts-section">
-        <section className="filter-likes">
-          <button onClick={fetchMostLiked}>Mest gillade</button>
-          <button onClick={fetchLeastLiked}>Minst gillade</button>
+       <section className="filter-likes">
+          <button
+            onClick={fetchMostLiked}
+            style={{
+              backgroundColor: activeSort === 'most' ? '#d4af37' : '',
+              color: activeSort === 'most' ? 'black' : '',}}>
+               Mest gillade
+          </button>
+
+          <button
+            onClick={fetchLeastLiked}
+            style={{
+              backgroundColor: activeSort === 'least' ? '#d4af37' : '',
+              color: activeSort === 'least' ? 'black' : '', }}>
+              Minst gillade
+          </button>
         </section>
+
         <h2 id="posts">Inlägg</h2>
 
-        {isSearching && filteredPosts.length === 0 && (
+          {isSearching && filteredPosts.length === 0 && (
           <div className="no-results-message">
             <p>Det finns inget som matchar din sökning på "{searchTerm}"</p>
           </div>
         )}
-
-        {posts.length === 0 ? (
+        
+        {filteredPosts.length === 0 ? (
           <p>Inga inlägg ännu.</p>
         ) : (
           filteredPosts.map((post) => (
@@ -348,7 +288,7 @@ const Explore = () => {
               <section className="post-info">
                 {post.slug?.current ? (
                   <Link to={`/post/${post.slug.current}`}>
-                    <h3>{post.title}</h3>{" "}
+                    <h3>{post.title}</h3>
                   </Link>
                 ) : (
                   <h3>{post.title}</h3>
@@ -364,15 +304,9 @@ const Explore = () => {
                   onClick={() => handleLike(post._id)}
                   disabled={userReactions[post._id] === "like"}
                   style={{
-                    backgroundColor:
-                      userReactions[post._id] === "like" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "like"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "like" ? "black" : "",
-                  }}
-                >
+                    backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
+                    cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
+                    color: userReactions[post._id] === "like" ? "black" : "",}}>
                   👍 {post.likes || 0}
                 </button>
 
@@ -380,15 +314,9 @@ const Explore = () => {
                   onClick={() => handleDislike(post._id)}
                   disabled={userReactions[post._id] === "dislike"}
                   style={{
-                    backgroundColor:
-                      userReactions[post._id] === "dislike" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "dislike"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "dislike" ? "black" : "",
-                  }}
-                >
+                    backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
+                    cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
+                    color: userReactions[post._id] === "dislike" ? "black" : "",}}>
                   👎 {post.dislikes || 0}
                 </button>
               </section>
