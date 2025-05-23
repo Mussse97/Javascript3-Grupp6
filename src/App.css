@@ -63,6 +63,17 @@ body.dark-theme .popular-section h2 {
   color: #f5f5f5;
 }
 
+body.light-theme .no-results-message {
+  color: #000; /* Svart text i ljus bakgrund */
+  border: 1px solid #000; /* Svart kantlinje */
+}
+
+body.light-theme .search-section input {
+  border: 0.3px inset #000; /* Svart kantlinje */ 
+  border-radius: 50px;
+}
+
+
 .single-post {
     color: #f5f5f5;
 }

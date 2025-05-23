@@ -288,6 +288,7 @@ const Explore = () => {
               <button className="cta-button">🔍</button>
             </a>
           </section>
+
         </section>
       </header>
 
