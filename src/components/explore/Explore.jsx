@@ -200,14 +200,20 @@ const fetchLeastLiked = () => {
     <main className="explore">
       <header className="explore-header">
         <section className="search-section">
-          <h1>Upptäck senaste inläggen</h1>
-         <input
 
-            type="text"
-            placeholder="Sök..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
+          <h1 className="explore-heading">Upptäck senaste inläggen</h1>
+          <section className="search-bar">
+            <input
+              type="text"
+              placeholder="Sök..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <a href="#posts">
+              <button className="cta-button">🔍</button>
+            </a>
+          </section>
+
 
         </section>
       </header>
@@ -266,8 +272,7 @@ const fetchLeastLiked = () => {
           </button>
         </section>
 
-
-        <h2>Inlägg</h2>
+        <h2 id="posts">Inlägg</h2>
 
           {isSearching && filteredPosts.length === 0 && (
           <div className="no-results-message">
