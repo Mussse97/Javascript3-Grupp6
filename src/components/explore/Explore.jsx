@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { client } from "../../sanityClient";
-import { writeClient } from "../../sanityClient";
+import { client, writeClient } from "../../sanityClient";
 import "./Explore.css";
 import { Link } from "react-router-dom";
 
@@ -61,6 +60,7 @@ const Explore = () => {
     await fetchGenresByCategory(slug);
   };
 
+  
   const handleGenreChange = (e, genreTitle) => {
     const checked = e.target.checked;
     let updatedGenres = checked
@@ -301,9 +301,7 @@ const fetchLeastLiked = () => {
                   style={{
                     backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
                     cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
-                    color: userReactions[post._id] === "like" ? "black" : "",
-                  }}
-                >
+                    color: userReactions[post._id] === "like" ? "black" : "",}}>
                   👍 {post.likes || 0}
                 </button>
 
@@ -313,9 +311,7 @@ const fetchLeastLiked = () => {
                   style={{
                     backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
                     cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
-                    color: userReactions[post._id] === "dislike" ? "black" : "",
-                  }}
-                >
+                    color: userReactions[post._id] === "dislike" ? "black" : "",}}>
                   👎 {post.dislikes || 0}
                 </button>
               </section>
