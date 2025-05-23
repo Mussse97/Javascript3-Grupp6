@@ -278,14 +278,17 @@ const Explore = () => {
         <section className="search-section">
           <h1 className="explore-heading">Upptäck senaste inläggen</h1>
           <section className="search-bar">
-          <input
+            <input
+              type="text"
+              placeholder="Sök..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <a href="#posts">
+              <button className="cta-button">🔍</button>
+            </a>
+          </section>
 
-            type="text"
-            placeholder="Sök..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </section>
         </section>
       </header>
 
@@ -329,7 +332,7 @@ const Explore = () => {
           <button onClick={fetchMostLiked}>Mest gillade</button>
           <button onClick={fetchLeastLiked}>Minst gillade</button>
         </section>
-        <h2>Inlägg</h2>
+        <h2 id="posts">Inlägg</h2>
 
         {isSearching && filteredPosts.length === 0 && (
           <div className="no-results-message">
