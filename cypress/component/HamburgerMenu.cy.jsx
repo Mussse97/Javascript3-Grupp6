@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */ 
+
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import HamburgerMenu from '../../src/components/Header/HamburgerMenu';

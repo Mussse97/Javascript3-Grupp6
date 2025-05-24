@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */ 
+
 // cypress/component/RegisterForm.cy.jsx
 import React from 'react';
 import RegisterForm from '../../src/components/registerform/RegisterForm';

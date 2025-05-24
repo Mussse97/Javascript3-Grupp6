@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */ 
+
 // cypress/component/ProfilesList.cy.jsx
 import React from 'react';
 import ProfilesList from '../../src/components/profiles/ProfilesList';

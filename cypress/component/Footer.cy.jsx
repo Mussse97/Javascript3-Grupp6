@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */ 
+
 // cypress/component/Footer.cy.jsx
 import React from 'react';
 import Footer from '../../src/components/Footer/Footer';

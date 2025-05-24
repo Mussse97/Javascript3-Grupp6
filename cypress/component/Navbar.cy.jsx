@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */ 
+
 import React from 'react';
 import Navbar from '../../src/components/Header/Navbar';
 import { MemoryRouter } from 'react-router-dom';
