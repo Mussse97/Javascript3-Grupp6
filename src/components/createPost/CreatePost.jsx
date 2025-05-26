@@ -1,31 +1,32 @@
-
-import React, { useState, useEffect } from 'react';
-import './CreatePost.css';
-import { client, writeClient } from '../../sanityClient';
-
+import React, { useState, useEffect } from "react";
+import "./CreatePost.css";
+import { client, writeClient } from "../../sanityClient";
 
 // komponenten används för att skapa nya inlägg
 function CreatePost() {
   const [post, setPost] = useState({
-
-    title: '',
-    category: '',
-    year: '',
-    producer: '',
-    genre: '',
-    body: '',
+    title: "",
+    category: "",
+    year: "",
+    producer: "",
+    genre: "",
+    body: "",
   });
 
   const [categories, setCategories] = useState([]); // Hämta kategorier
   const [genres, setGenres] = useState([]); // Hämta genrer
-  const [filteredGenres, setFilteredGenres] = useState([]);   // Filtrera genrer baserat på vald kategori
-  const [message, setMessage] = useState(''); // Meddelande för publicering
-  
+  const [filteredGenres, setFilteredGenres] = useState([]); // Filtrera genrer baserat på vald kategori
+  const [message, setMessage] = useState(""); // Meddelande för publicering
+
   // Hämta kategorier och genrer från Sanity
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedCategories = await client.fetch(`*[_type == "category"]{_id, title}`);
-      const fetchedGenres = await client.fetch(`*[_type == "genre"]{_id, title, category->{_id, title}}`);
+      const fetchedCategories = await client.fetch(
+        `*[_type == "category"]{_id, title}`
+      );
+      const fetchedGenres = await client.fetch(
+        `*[_type == "genre"]{_id, title, category->{_id, title}}`
+      );
       setCategories(fetchedCategories);
       setGenres(fetchedGenres);
     };
@@ -34,14 +35,18 @@ function CreatePost() {
 
   // Uppdatera filtrerade genres när kategori ändras
   useEffect(() => {
-    const selectedCategory = categories.find((cat) => cat.title === post.category);
+    const selectedCategory = categories.find(
+      (cat) => cat.title === post.category
+    );
     if (selectedCategory) {
-      const relatedGenres = genres.filter((g) => g.category?._id === selectedCategory._id);
+      const relatedGenres = genres.filter(
+        (g) => g.category?._id === selectedCategory._id
+      );
       setFilteredGenres(relatedGenres);
     } else {
       setFilteredGenres([]);
     }
-    setPost((prev) => ({ ...prev, genre: '' })); // Töm vald genre
+    setPost((prev) => ({ ...prev, genre: "" })); // Töm vald genre
   }, [post.category, genres, categories]);
 
   const handleChange = (e) => {
@@ -55,55 +60,58 @@ function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const selectedCategory = categories.find((cat) => cat.title === post.category);
-    const selectedGenre = genres.find((g) => g.title === post.genre && g.category?._id === selectedCategory?._id);
+    const selectedCategory = categories.find(
+      (cat) => cat.title === post.category
+    );
+    const selectedGenre = genres.find(
+      (g) => g.title === post.genre && g.category?._id === selectedCategory?._id
+    );
 
     if (!selectedCategory || !selectedGenre) {
-      setMessage('Välj en giltig kategori och genre.');
+      setMessage("Välj en giltig kategori och genre.");
       return;
     }
 
-   const newPost = {
-    _type: 'post',
-    title: post.title,
-    slug: {
-      _type: 'slug',
-      // ser till att slug alltid fungerar och förhindrar ÅÄÖ + versaler
-      current: post.title
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]+/g, '') // äldre kod... (/[^\w\-]+/g, '')
-        .slice(0, 96),
-    },
-    category: {
-      _type: 'reference',
-      _ref: selectedCategory._id,
-    },
-    year: parseInt(post.year, 10),
-    producer: post.producer,
-    genres: [
-      {
-        _type: 'reference',
-        _ref: selectedGenre._id,
-        _key: crypto.randomUUID(),
+    const newPost = {
+      _type: "post",
+      title: post.title,
+      slug: {
+        _type: "slug",
+        // ser till att slug alltid fungerar och förhindrar ÅÄÖ + versaler
+        current: post.title
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w-]+/g, "") // äldre kod... (/[^\w\-]+/g, '')
+          .slice(0, 96),
       },
-    ],
-    body: post.body,
-    createdAt: new Date().toISOString(),
-};
+      category: {
+        _type: "reference",
+        _ref: selectedCategory._id,
+      },
+      year: parseInt(post.year, 10),
+      producer: post.producer,
+      genres: [
+        {
+          _type: "reference",
+          _ref: selectedGenre._id,
+          _key: crypto.randomUUID(),
+        },
+      ],
+      body: post.body,
+      createdAt: new Date().toISOString(),
+    };
 
-
+    // Försöker att skicka upp det nya inlägget till Sanity
     try {
       await writeClient.create(newPost);
-      setMessage('Inlägget har publicerats!');
+      setMessage("Inlägget har publicerats!");
       setPost({
-        title: '',
-        category: '',
-        year: '',
-        producer: '',
-        genre: '',
-        body: '',
+        title: "",
+        category: "",
+        year: "",
+        producer: "",
+        genre: "",
+        body: "",
       });
 
       setTimeout(() => setMessage(""), 3000);
