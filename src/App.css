@@ -74,3 +74,11 @@ border: 0.3px inset #000; /* Svart kantlinje */
 color: #f5f5f5;
 }
 
+body.light-theme .explore-heading {
+  color: #000;  /* SPARA svart text i light-mode */
+}
+
+body.light-theme #posts {
+  color: #000; /* SPARA svart text i light-mode */
+}
+
