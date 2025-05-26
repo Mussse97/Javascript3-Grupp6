@@ -48,7 +48,7 @@ const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coales
     };
 
     fetchData();
-  });
+  }, []); 
 
   return (
     <section className="startsida-wrapper">

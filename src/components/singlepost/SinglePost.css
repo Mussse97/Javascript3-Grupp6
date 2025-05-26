@@ -93,16 +93,17 @@
     }
   }
 }
-.single-post h1 {
+
+@media (max-width: 600px) {
+  .single-post h1 {
+    font-size: 1.7rem;
+  }
+  .single-post h1 {
   font-size: 2rem;
   line-height: 1.2;
   word-break: break-word;
   text-align: center;
   margin-bottom: 1.5rem;
 }
-@media (max-width: 600px) {
-  .single-post h1 {
-    font-size: 1.7rem;
-  }
 }
 
