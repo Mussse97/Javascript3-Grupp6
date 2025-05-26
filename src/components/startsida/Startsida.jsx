@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './startsida.css';
-import { client } from "../../sanityClient"; 
+/*import { client } from "../../sanityClient"; */
+import { client as defaultClient} from "../../sanityClient"; 
 
-
-const Startsida = () => {
+const Startsida = ({ client = defaultClient }) => {
   const [latestPosts, setLatestPosts] = useState([]);
   const [popularArticles, setPopularArticles] = useState([]);
 
@@ -43,7 +43,7 @@ const Startsida = () => {
     };
 
     fetchData();
-  }, );
+  }, []);
 
 
 

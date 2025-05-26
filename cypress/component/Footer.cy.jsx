@@ -1,9 +1,13 @@
 /* eslint-disable no-undef */ 
 
-// cypress/component/Footer.cy.jsx
+/// <reference types="cypress" />
+
+// Importerar Cypress och React-komponenter som ska testas
 import React from 'react';
 import Footer from '../../src/components/Footer/Footer';
 
+// Cypress-test för Footer-komponenten
+// Denna komponent testar att Footer-komponenten renderas korrekt och innehåller sociala medie-länkar
 describe('Footer', () => {
   it('renderar sociala medie-länkar', () => {
     cy.mount(<Footer />);

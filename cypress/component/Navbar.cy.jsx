@@ -1,9 +1,14 @@
 /* eslint-disable no-undef */ 
 
+/// <reference types="cypress" />
+
+// Importerar Cypress och React-komponenter som ska testas
 import React from 'react';
 import Navbar from '../../src/components/Header/Navbar';
 import { MemoryRouter } from 'react-router-dom';
 
+// Cypress-test för Navbar-komponenten
+// Denna komponent testar att Navbar-komponenten renderar länkar och hamburgermeny korrekt
 describe('Navbar', () => {
   it('renderar länkar och hamburgermeny', () => {
     cy.mount(

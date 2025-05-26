@@ -1,10 +1,14 @@
 /* eslint-disable no-undef */ 
 
-// cypress/component/Header.cy.jsx
+/// <reference types="cypress" />
+
+// Importerar Cypress och React-komponenter som ska testas 
 import React from 'react';
 import Header from '../../src/components/Header/Header';
 import { MemoryRouter } from 'react-router-dom';
 
+// Cypress-test för Header-komponenten
+// Denna komponent testar att Header-komponenten renderar logotyp och navigeringsmeny korrekt
 describe('Header', () => {
   it('renderar logga och navbar', () => {
     cy.mount(

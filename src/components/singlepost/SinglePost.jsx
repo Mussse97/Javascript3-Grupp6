@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { client, writeClient } from "../../sanityClient";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { client as defaultClient, writeClient as defaultWriteClient } from "../../sanityClient";
+
 import "./SinglePost.css";
 
-export default function SinglePost() {
+export default function SinglePost({ client = defaultClient, writeClient = defaultWriteClient }) {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
 
@@ -30,7 +30,7 @@ export default function SinglePost() {
       )
       .then((data) => setPost(data))
       .catch(console.error);
-  }, [slug]);
+  }, [slug, client]);
 
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
@@ -54,11 +54,11 @@ export default function SinglePost() {
         .append("comments", [newComment])
         .commit();
 
-      // Lägg till kommentaren lokalt utan ny fetch
       setPost((prev) => ({
         ...prev,
         comments: [...(prev.comments || []), newComment],
       }));
+
       setSuccessMsg("Kommentar skickad!");
       setName("");
       setComment("");
@@ -78,7 +78,7 @@ export default function SinglePost() {
           <p>Producent: {post.producer}</p>
           <p>Kategori: {post.category?.title}</p>
           <p>Genrer: {post.genres?.map((g) => g.title).join(", ")}</p>
-          <p>Inehåll: {post.body}</p>
+          <p>Innehåll: {post.body}</p>
         </div>
       </section>
       <div className="comment-wrapper">
