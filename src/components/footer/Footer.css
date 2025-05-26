@@ -1,27 +1,39 @@
 footer {
-  background-color: #312f2c; /* Bakgrundsfärg för footern */
-  color: white; /* Textfärg */
-  text-align: center;
-  padding: 10px 0;
-  position: relative;
+  background-color: #312f2c;
+  color: white;
   width: 100%;
+  padding: 20px 0; /* Låt innehållet styra höjden */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .footer-content {
-  margin: 0 auto;
+  max-width: 600px;
+  width: 100%;
+}
+
+.footer-content p {
+  margin: 0;
 }
 
 .social-icons {
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .social-icons a {
-  margin: 0 10px;
   color: white;
   font-size: 24px;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
 .social-icons a:hover {
-  color: #d4af37; /* Byt färg när man hovrar över ikonerna */
+  color: #d4af37; /* Guld-färg vid hover */
 }
