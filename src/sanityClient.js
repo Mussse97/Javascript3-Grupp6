@@ -15,3 +15,12 @@ export const writeClient = createClient({
   token: import.meta.env.VITE_SANITY_WRITE_TOKEN,
   useCdn: false, // skrivning = aldrig CDN
 });
+// inte riktigt som writeClient, hämtar senaste innehållet direkt från databasen (förbi cache)
+export const previewClient = createClient({
+  projectId: "xtbj8j30",
+  dataset: "production",
+  apiVersion: "2024-05-13",
+  token: import.meta.env.VITE_SANITY_WRITE_TOKEN,
+  useCdn: false, 
+  perspective: "previewDrafts", // viktig del!
+});

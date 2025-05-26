@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { client, writeClient } from "../../sanityClient";
+import { client, writeClient, previewClient } from "../../sanityClient";
 import "./Explore.css";
 import { Link } from "react-router-dom";
 
@@ -162,6 +162,7 @@ const fetchLeastLiked = () => {
           : post
       )
     );
+  
     const updated = { ...userReactions, [postId]: "like" };
     setUserReactions(updated);
     localStorage.setItem("userReactions", JSON.stringify(updated));
@@ -207,8 +208,7 @@ const fetchLeastLiked = () => {
               type="text"
               placeholder="Sök..."
               value={searchTerm}
-              onChange={handleSearchChange}
-            />
+              onChange={handleSearchChange}/>
             <a href="#posts">
               <button className="cta-button">🔍</button>
             </a>
