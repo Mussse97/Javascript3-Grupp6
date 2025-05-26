@@ -93,7 +93,8 @@
 @media (max-width: 600px) {
   .profile-page {
     padding: 80px 16px 100px;
-    min-height: auto;
+    min-height:  calc(100vh - 120px);
+;
   }
 
   .profile-page > div {
