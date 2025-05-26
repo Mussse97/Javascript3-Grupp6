@@ -79,6 +79,16 @@
       button {
         max-width: 20rem;
       }
+
+      @media screen and (max-width: 1000px) {
+        input {
+          max-width: 100%;
+        }
+
+        textarea {
+          max-width: 100%;
+        }
+      }
     }
   }
 }
