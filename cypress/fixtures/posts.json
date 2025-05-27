@@ -1,0 +1,28 @@
+{
+  "result": [
+    {
+      "_id": "abc1",
+      "title": "Testinlägg 1",
+      "slug": { "current": "testinlagg-1" },
+      "year": 2023,
+      "producer": "Person A",
+      "category": { "title": "Film", "slug": "film" },
+      "genres": [{ "title": "Action" }],
+      "body": "Ett testinlägg om film.",
+      "likes": 10,
+      "dislikes": 2
+    },
+    {
+      "_id": "abc2",
+      "title": "Testinlägg 2",
+      "slug": { "current": "testinlagg-2" },
+      "year": 2024,
+      "producer": "Person B",
+      "category": { "title": "Spel", "slug": "spel" },
+      "genres": [{ "title": "Äventyr" }],
+      "body": "Ett testinlägg om spel.",
+      "likes": 2,
+      "dislikes": 5
+    }
+  ]
+}

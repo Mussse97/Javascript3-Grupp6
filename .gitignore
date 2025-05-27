@@ -27,6 +27,5 @@ package.json
 .env
 package.json 
 package-lock.json
-/cypress
-cypress.config.js
+
 
