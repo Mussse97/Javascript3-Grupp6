@@ -7,8 +7,8 @@ import "./SinglePost.css";
 export default function SinglePost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
-  // const [errorMsg, setErrorMsg] = useState("");
 
+  // Hämtar data från Sanity
   useEffect(() => {
     client
       .fetch(
@@ -37,6 +37,11 @@ export default function SinglePost() {
   const [comment, setComment] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  // Hanterar inskickning av kommentarer:
+  // 1. Validerar att både namn och kommentar är ifyllda
+  // 2. Skapar ett nytt kommentarsobjekt med aktuell tidstämpel
+  // 3. Skickar till databasen och uppdaterar lokalt state för snabb respons
+  // 4. Återställer formuläret vid lyckad inskickning
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !comment.trim()) {
@@ -57,11 +62,12 @@ export default function SinglePost() {
         .append("comments", [newComment])
         .commit();
 
-      // Lägg till kommentaren lokalt utan ny fetch
+      // lägger till kommentaren direkt i state
       setPost((prev) => ({
         ...prev,
         comments: [...(prev.comments || []), newComment],
       }));
+      // Återställer formulär och visar bekräftelse
       setSuccessMsg("Kommentar skickad!");
       setName("");
       setComment("");

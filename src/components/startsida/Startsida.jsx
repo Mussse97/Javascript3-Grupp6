@@ -17,8 +17,7 @@ const Startsida = () => {
     _createdAt
   }`;
 
-
-const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coalesce(likes, 0) desc)[0...3] {
+  const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coalesce(likes, 0) desc)[0...3] {
 
   _id,
   title,
@@ -39,6 +38,7 @@ const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coales
     return textBlocks.split(" ").slice(0, wordLimit).join(" ") + "...";
   };
 
+  // Hämtar data från Sanity för att populera "latest" och "popular" med de senaste/mest populära inläggen
   useEffect(() => {
     const fetchData = async () => {
       const latest = await client.fetch(latestQuery);
@@ -48,14 +48,16 @@ const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coales
     };
 
     fetchData();
-  }, []); 
+
+  }, []);
+
 
   return (
     <section className="startsida-wrapper">
       <header></header>
       <main className="startsida-main">
         <section className="hero-section">
-          <h2>Välkommen till MedieTema!</h2>
+          <h2>Välkommen till MediaTema!</h2>
           <p className="hero-text">
             Din plats för diskussioner om film, musik, spel och böcker! Skapa
             inlägg, dela dina tankar och upptäck nya favoriter
@@ -63,12 +65,12 @@ const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coales
           <Link to={`/explore`}>
             <button className="cta-button">Utforska Mer!</button>
           </Link>
-          {/* <NavLink className="cta-button" to="/profiles">Profiler</NavLink> */}
         </section>
 
         <section className="news-section">
           <h2>Senaste inlägg</h2>
           <section className="news-grid">
+            {/* Populerar sidan med de senaste inläggen */}
             {latestPosts.map((item) => (
               <article key={item._id} className="news-card">
                 <span className="news-category">{item.category}</span>
@@ -93,6 +95,7 @@ const popularQuery = `*[_type == "post" && defined(slug.current)] | order(coales
         <section className="popular-section">
           <h2>Populärt & Trendigt</h2>
           <section className="popular-grid">
+            {/* Populerar sidan med de mest populära inläggen */}
             {popularArticles.map((article) => (
               <section key={article._id} className="popular-card">
                 <section className="card-image-container">
