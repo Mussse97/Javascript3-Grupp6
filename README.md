@@ -1,12 +1,107 @@
-# React + Vite
+# 🌐 MedieTema
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En komplett React-applikation där användare kan:
+- Skapa och utforska inlägg om filmer, böcker, musik och spel
+- Registrera sig och hantera egna användarprofiler
+- Navigera via responsiv meny
+- Växla mellan mörkt/ljust tema
+- Följa sociala medier via sidfoten
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funktioner
 
-## Expanding the ESLint configuration
+### 🔐 Användarhantering
+- Registrera ny användare (`RegisterForm`)
+- Spara användare i Sanity CMS (`_type: "user"`)
+- Lista alla användare (`ProfilesList`)
+- Visa enskild profilsida via klick
+- Länk till "Min profil" när man är inloggad
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 📝 Inläggssystem
+- Skapa inlägg om film, musik, spel eller böcker (`CreatePost`)
+- Utforska alla inlägg via `Explore`
+- Backend: Sanity CMS (`_type: "post"`)
+
+### 🌗 Temaväxling
+- Växla mellan mörkt och ljust läge med ikon i `Navbar`
+
+### 📱 Navigation
+- Desktop-navigering via `Navbar`
+- Mobilnavigering via `HamburgerMenu`
+- Routing med React Router
+
+### 📣 Footer / Sidfot
+- Sociala medielänkar (Facebook, Instagram, LinkedIn)
+- Stilren layout (`Footer.css`)
+- Följer användaren längst ned på sidan
+
+---
+
+## 🛠️ Teknologi
+
+- React
+- Sanity CMS
+- Vite
+- React Router
+- Font Awesome (för sociala ikoner)
+
+---
+
+## 📦 Kom igång
+
+
+1. **Installera beroenden:**
+   \`\`\`bash
+   npm install
+   \`\`\`
+
+2. **Starta frontend:**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+3. **Ställ in Sanity:**
+   \`\`\`bash
+   cd sanity
+   npm install
+   npm run dev
+   \`\`\`
+
+4. **Miljövariabler (valfritt):**
+   Lägg till i `.env`:
+   \`\`\`
+   VITE_SANITY_PROJECT_ID=din-id
+   VITE_SANITY_DATASET=production
+   \`\`\`
+
+---
+
+## ✅ Att göra
+
+- [ ] Profilbild för användare
+- [ ] Inloggning/autentisering
+- [ ] Sökfunktion i `Explore`
+- [ ] Like/favoritmarkering av inlägg
+- [ ] Footer: Lägg till kontaktformulär
+
+---
+
+## 📄 ## Projektmedlemmar och kontaktuppgifter
+### Mostafa Hussein
+- **GitHub**: 
+- **E-post**: 
+- **LinkedIn**:
+### Tobias Thor 
+- **GitHub**: [Tobias-Thor](https://github.com/Tobias-Thor)
+- **LinkedIn**: [Tobias Thor](https://www.linkedin.com/in/tobias-thor-810215182/)
+- **E-post**: [tobiasthor@protonmail.com](mailto:tobiasthor@protonmail.com)
+### Gentiana Berisha Rashiti
+- **GitHub**: [Gentiana.B.R](GentianaBR (Gentiana.B.R))
+- **LinkedIn**:[Gentiana Berisha Rashiti](https://www.linkedin.com/in/gentiana-b-29a43029a/)
+- **E-post**:  [g.rashiti@hotmail.com]
+### Jonas Eklöf
+- **GitHub**:
+- **E-post**:
+- **LinkedIn**:
+
