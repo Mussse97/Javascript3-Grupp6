@@ -297,7 +297,7 @@ const Explore = () => {
         )}
 
         {filteredPosts.length === 0 ? (
-          <p>Inga inlägg ännu.</p>
+          <p className="noPostsYet">Inga inlägg ännu.</p>
         ) : (
           filteredPosts.map((post) => (
             <article key={post._id} className="post-card">
