@@ -48,7 +48,9 @@ const Startsida = () => {
     };
 
     fetchData();
+
   }, []);
+
 
   return (
     <section className="startsida-wrapper">

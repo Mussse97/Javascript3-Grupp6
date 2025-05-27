@@ -325,7 +325,7 @@ const Explore = () => {
 
         {/* Renderar filtrerade inlägg eller "Inga inlägg"-meddelande */}
         {filteredPosts.length === 0 ? (
-          <p>Inga inlägg ännu.</p>
+          <p className="noPostsYet">Inga inlägg ännu.</p>
         ) : (
           // Loopar genom alla filtrerade inlägg och renderar som kort
           filteredPosts.map((post) => (

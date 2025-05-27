@@ -82,3 +82,6 @@ body.light-theme #posts {
   color: #000; /* SPARA svart text i light-mode */
 }
 
+body.light-theme .noPostsYet {
+  color: #000; /* SPARA svart text i light-mode */
+}
