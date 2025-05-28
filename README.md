@@ -1,8 +1,8 @@
-# 🌐 MedieTema
+# 🌐 MediaTema
 
 En komplett React-applikation där användare kan:
 - Skapa och utforska inlägg om filmer, böcker, musik och spel
-- Registrera sig och hantera egna användarprofiler
+- Registrera sig och få egna användarprofiler
 - Navigera via responsiv meny
 - Växla mellan mörkt/ljust tema
 - Följa sociala medier via sidfoten
@@ -16,7 +16,6 @@ En komplett React-applikation där användare kan:
 - Spara användare i Sanity CMS (`_type: "user"`)
 - Lista alla användare (`ProfilesList`)
 - Visa enskild profilsida via klick
-- Länk till "Min profil" när man är inloggad
 
 ### 📝 Inläggssystem
 - Skapa inlägg om film, musik, spel eller böcker (`CreatePost`)
@@ -34,7 +33,6 @@ En komplett React-applikation där användare kan:
 ### 📣 Footer / Sidfot
 - Sociala medielänkar (Facebook, Instagram, LinkedIn)
 - Stilren layout (`Footer.css`)
-- Följer användaren längst ned på sidan
 
 ---
 
@@ -45,6 +43,7 @@ En komplett React-applikation där användare kan:
 - Vite
 - React Router
 - Font Awesome (för sociala ikoner)
+- Cypress (för testning)
 
 ---
 
@@ -52,42 +51,35 @@ En komplett React-applikation där användare kan:
 
 
 1. **Installera beroenden:**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Starta frontend:**
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 3. **Ställ in Sanity:**
-   \`\`\`bash
+   ```bash
    cd sanity
    npm install
    npm run dev
-   \`\`\`
+   ```
 
 4. **Miljövariabler (valfritt):**
    Lägg till i `.env`:
-   \`\`\`
+   ```
    VITE_SANITY_PROJECT_ID=din-id
    VITE_SANITY_DATASET=production
-   \`\`\`
-
+   ```
+5. **Installara Cypress (valfritt):**
+```bash
+   npm install cypress
+```
 ---
 
-## ✅ Att göra
-
-- [ ] Profilbild för användare
-- [ ] Inloggning/autentisering
-- [ ] Sökfunktion i `Explore`
-- [ ] Like/favoritmarkering av inlägg
-- [ ] Footer: Lägg till kontaktformulär
-
----
-
-## 📄 ## Projektmedlemmar och kontaktuppgifter
+## 📄 Projektmedlemmar och kontaktuppgifter
 ### Mostafa Hussein
 - **GitHub**: 
 - **E-post**: 
