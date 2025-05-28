@@ -111,6 +111,6 @@ En komplett React-applikation där användare kan:
 
 ### Jonas Eklöf
 
-- **GitHub**: [Jonas-Eklof]
+- **GitHub**: [Jonas-Eklof](https://github.com/Jonas-Eklof/)
 - **LinkedIn**: [Jonas Eklöf](https://www.linkedin.com/in/jonas-ekl%C3%B6f/)
 - **E-post**: [jonas.eklof@student.kyh.se](mailto:jonas.eklof@student.kyh.se)
