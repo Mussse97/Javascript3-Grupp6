@@ -22,6 +22,7 @@ const Explore = () => {
     { title: "📚 Böcker", slug: "bocker" },
   ];
 
+  // Hämtar alla posts från Sanity med GROQ-query
   const fetchAllPosts = async () => {
     const query = `*[_type == "post"]{
       _id, title, slug, year, producer,
@@ -34,12 +35,16 @@ const Explore = () => {
     setFilteredPosts(result);
   };
 
+  // Hämtar alla Genrer för tillhörande Kategorier
   const fetchGenresByCategory = async (slug) => {
     const query = `*[_type == "genre" && category->slug.current == $slug]{ _id, title }`;
     const result = await client.fetch(query, { slug });
     setGenres(result);
   };
 
+  // Denna kod hanterar klick-event på kategorierna
+  // Om du klickar på en redan markerad kategori så avmarkeras den / det återgår till att visa poster utan filtrering
+  // Annars filtreras posterna enligt den kategori som valts
   const handleCategoryClick = async (slug) => {
     if (selectedCategory === slug) {
       setSelectedCategory(null);
@@ -58,6 +63,9 @@ const Explore = () => {
     await fetchGenresByCategory(slug);
   };
 
+  // Denna kod hanterar val av genre
+  // När användaren kryssar i en av genre-checkboxarna så filtreras resultaten av poster efter den/de valda genre(n/s)
+  // Varje i-klickad checkbox uppdaterar filtreringen
   const handleGenreChange = (e, genreTitle) => {
     const checked = e.target.checked;
     let updatedGenres = checked
@@ -83,6 +91,7 @@ const Explore = () => {
     }
   };
 
+  // Visar hur många resultat som finns tillgängliga för varje genre
   const getGenreCount = (genreTitle) => {
     return posts.filter(
       (post) =>
@@ -91,6 +100,8 @@ const Explore = () => {
     ).length;
   };
 
+  // Denna kod hanterar det som skrivs i sökfältet
+  // Man kan söka på all kontent i ett inlägg, oavsett om det gäller titel, årstal, recensionen etc.
   const handleSearchChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -118,6 +129,8 @@ const Explore = () => {
     }
   };
 
+  // Denna kod sorterar och visar de 10 mest gillade inläggen (högst antal likes först).
+  // Kan återgå till ursprunglig sortering genom att trycka på samma knapp igen
   const fetchMostLiked = () => {
     if (activeSort === "most") {
       setFilteredPosts(posts);
@@ -129,6 +142,7 @@ const Explore = () => {
     setActiveSort("most");
   };
 
+  // Denna kod sorterar och visar de 10 *minst* gillade inläggen (högst antal dislikes först).
   const fetchLeastLiked = () => {
     if (activeSort === "least") {
       setFilteredPosts(posts);
@@ -142,64 +156,59 @@ const Explore = () => {
     setActiveSort("least");
   };
 
-  const handleLike = async (postId) => {
-    const prev = userReactions[postId];
-    if (prev === "like") return;
-    if (prev === "dislike") {
-      await writeClient.patch(postId).dec({ dislikes: 1 }).commit();
-    }
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ likes: 0 })
-      .inc({ likes: 1 })
-      .commit();
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
+
+ 
+const handleReaction = async (postId, type) => {
+  // type kan vara "like" eller "dislike"
+  const opposite = type === "like" ? "dislike" : "like";
+  const previousReaction = userReactions[postId];
+
+  // Om användaren redan har klickat på samma typ (t.ex. redan gillat), gör inget
+  if (previousReaction === type) return;
+
+  // Om användaren hade den motsatta reaktionen tidigare, ta bort den
+  if (previousReaction === opposite) {
+    await writeClient.patch(postId).dec({ [opposite + 's']: 1 }).commit();
+  }
+
+  // Lägg till den nya reaktionen
+  await writeClient
+    .patch(postId)
+    .setIfMissing({ [type + 's']: 0 }) // t.ex. likes eller dislikes
+    .inc({ [type + 's']: 1 })
+    .commit();
+
+  // Optimistisk uppdatering i UI (för både posts och filteredPosts)
+  const updateState = (listSetter) => {
+    listSetter(prev =>
+      prev.map(post =>
         post._id === postId
           ? {
               ...post,
-              likes: (post.likes || 0) + 1,
-              dislikes: prev === "dislike" ? post.dislikes - 1 : post.dislikes,
+              [type + 's']: (post[type + 's'] || 0) + 1, // t.ex. likes++
+              [opposite + 's']: previousReaction === opposite
+                ? Math.max((post[opposite + 's'] || 0) - 1, 0)
+                : post[opposite + 's']
             }
           : post
       )
     );
-  
-    const updated = { ...userReactions, [postId]: "like" };
-    setUserReactions(updated);
-    localStorage.setItem("userReactions", JSON.stringify(updated));
   };
 
-  const handleDislike = async (postId) => {
-    const prev = userReactions[postId];
-    if (prev === "dislike") return;
-    if (prev === "like") {
-      await writeClient.patch(postId).dec({ likes: 1 }).commit();
-    }
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ dislikes: 0 })
-      .inc({ dislikes: 1 })
-      .commit();
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post._id === postId
-          ? {
-              ...post,
-              dislikes: (post.dislikes || 0) + 1,
-              likes: prev === "like" ? post.likes - 1 : post.likes,
-            }
-          : post
-      )
-    );
-    const updated = { ...userReactions, [postId]: "dislike" };
-    setUserReactions(updated);
-    localStorage.setItem("userReactions", JSON.stringify(updated));
-  };
+  updateState(setPosts);
+  updateState(setFilteredPosts);
 
+  // Uppdatera localStorage och state
+  const updated = { ...userReactions, [postId]: type };
+  setUserReactions(updated);
+  localStorage.setItem("userReactions", JSON.stringify(updated));
+};
+
+
+  // Denna kod hämtar alla inlägg vid första rendering och laddar användarens tidigare reaktioner från localStorage
   useEffect(() => {
     fetchAllPosts();
-    const saved = JSON.parse(localStorage.getItem("userReactions")) || {};
+    const saved = JSON.parse(localStorage.getItem("userReactions")) || {}; // Laddar sparade gillningar/ogillningar
     setUserReactions(saved);
   }, []);
 
@@ -217,6 +226,7 @@ const Explore = () => {
 
               onChange={handleSearchChange}
               onKeyDown={(e) => {
+                // I sökfältet när du trycker Enter så får du samma resultat som när du trycker på sök-knappen, du blir skickad ner till "Inlägg" som har id:t #posts
                 if (e.key === "Enter") {
                   e.preventDefault();
                   document
@@ -234,9 +244,11 @@ const Explore = () => {
 
       <section className="category-buttons">
         {categories.map((cat) => (
+          // Populerar sektionen med knapparna för kategorier
           <button
             key={cat.slug}
             className={`category-btn ${
+              // Gör en kategori "active" när den blir klickad
               selectedCategory === cat.slug ? "active" : ""
             }`}
             onClick={() => handleCategoryClick(cat.slug)}
@@ -246,15 +258,18 @@ const Explore = () => {
         ))}
       </section>
 
+      {/* Filtreringssektion för genrer med expanderbar meny */}
       <section className="filter-section">
         <h2 onClick={() => setShowGenres(!showGenres)}>
           Filtrera {showGenres ? "▲" : "▼"}
         </h2>
+        {/* Genre-filtreringsalternativ (visas/döljs) */}
         <section className={`genre-filters ${showGenres ? "open" : ""}`}>
           {genres.length === 0 ? (
             <p>Inga genrer tillgängliga</p>
           ) : (
             genres.map((genre) => (
+              // Lista med alla genrer som checkboxar
               <label key={genre._id}>
                 <input
                   type="checkbox"
@@ -293,15 +308,18 @@ const Explore = () => {
 
         <h2 id="posts">Inlägg</h2>
 
+        {/* Om något skrivs i sökfältet och det inte finns något matchande resultat så dyker paragrafen upp som säger att det inte finns något som matchar sökningen */}
         {isSearching && filteredPosts.length === 0 && (
           <div className="no-results-message">
             <p>Det finns inget som matchar din sökning på "{searchTerm}"</p>
           </div>
         )}
 
+        {/* Renderar filtrerade inlägg eller "Inga inlägg"-meddelande */}
         {filteredPosts.length === 0 ? (
-          <p>Inga inlägg ännu.</p>
+          <p className="noPostsYet">Inga inlägg ännu.</p>
         ) : (
+          // Loopar genom alla filtrerade inlägg och renderar som kort
           filteredPosts.map((post) => (
             <article key={post._id} className="post-card">
               <section className="post-info">
@@ -319,37 +337,30 @@ const Explore = () => {
                 <p>Innehåll: {post.body}</p>
               </section>
               <section className="post-actions">
-                <button
-                  onClick={() => handleLike(post._id)}
-                  disabled={userReactions[post._id] === "like"}
-                  style={{
-                    backgroundColor:
-                      userReactions[post._id] === "like" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "like"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "like" ? "black" : "",
-                  }}
-                >
-                  👍 {post.likes || 0}
-                </button>
+        <button
+  onClick={() => handleReaction(post._id, "like")}
+  disabled={userReactions[post._id] === "like"}
+  style={{
+    backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
+    cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
+    color: userReactions[post._id] === "like" ? "black" : "",
+  }}
+>
+  👍 {post.likes || 0}
+</button>
 
-                <button
-                  onClick={() => handleDislike(post._id)}
-                  disabled={userReactions[post._id] === "dislike"}
-                  style={{
-                    backgroundColor:
-                      userReactions[post._id] === "dislike" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "dislike"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "dislike" ? "black" : "",
-                  }}
-                >
-                  👎 {post.dislikes || 0}
-                </button>
+<button
+  onClick={() => handleReaction(post._id, "dislike")}
+  disabled={userReactions[post._id] === "dislike"}
+  style={{
+    backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
+    cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
+    color: userReactions[post._id] === "dislike" ? "black" : "",
+  }}
+>
+  👎 {post.dislikes || 0}
+</button>
+
               </section>
             </article>
           ))
