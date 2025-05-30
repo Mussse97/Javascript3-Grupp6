@@ -1,11 +1,10 @@
-
 #root {
   padding: 0;
   margin: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  /* / Ta bort centreringsregler för full bredd / */
+  /* / Ta bort centreringsregler fÃ¶r full bredd / */
 }
 
 /* / Logo styling / */
@@ -82,6 +81,8 @@ body.light-theme #posts {
   color: #000; /* SPARA svart text i light-mode */
 }
 
+
 body.light-theme .noPostsYet {
   color: #000; /* SPARA svart text i light-mode */
 }
+

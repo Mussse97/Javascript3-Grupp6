@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { client, writeClient } from "../../sanityClient";
+import { client, writeClient, previewClient } from "../../sanityClient";
 import "./Explore.css";
 import { Link } from "react-router-dom";
 
@@ -156,64 +156,57 @@ const Explore = () => {
     setActiveSort("least");
   };
 
-  // Denna kod hanterar när användaren gillar ett inlägg
-  // Om användaren har gillat ett inlägg så händer inget om knappen trycks igen
-  // Om användaren har gillat ett inlägg och sen väljer att ogilla så minskas först antalet "gilla" med 1 och antalet "ogilla" ökar med 1 - och vice versa
-  const handleLike = async (postId) => {
-    const prev = userReactions[postId];
-    if (prev === "like") return;
-    if (prev === "dislike") {
-      await writeClient.patch(postId).dec({ dislikes: 1 }).commit();
-    }
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ likes: 0 })
-      .inc({ likes: 1 })
-      .commit();
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
+
+ // funktion som hanterar reaktioner (gilla/ogilla) på inlägg
+const handleReaction = async (postId, type) => {
+  // type kan vara "like" eller "dislike"
+  const opposite = type === "like" ? "dislike" : "like";
+  const previousReaction = userReactions[postId];
+
+  // Om användaren redan har klickat på samma typ (t.ex. redan gillat), gör inget
+  if (previousReaction === type) return;
+
+  // Om användaren hade den motsatta reaktionen tidigare, ta bort den
+  if (previousReaction === opposite) {
+    await writeClient.patch(postId).dec({ [opposite + 's']: 1 }).commit();
+  }
+
+  // Lägg till den nya reaktionen
+  // Användning av strängkonkatenering för att dynamiskt sätta likes/dislikes
+  // type blir like eller dislike + s för "likes" eller "dislikes" som då matchar schemafältet
+  // Med strängkonkatenering slipper vi dubbel kod för likes och dislikes
+  await writeClient
+    .patch(postId)
+    .setIfMissing({ [type + 's']: 0 }) 
+    .inc({ [type + 's']: 1 })
+    .commit();
+
+  // Optimistisk uppdatering i UI (för både posts och filteredPosts)
+  const updateState = (listSetter) => {
+    listSetter(prev =>
+      prev.map(post =>
         post._id === postId
           ? {
               ...post,
-              likes: (post.likes || 0) + 1,
-              dislikes: prev === "dislike" ? post.dislikes - 1 : post.dislikes,
+              [type + 's']: (post[type + 's'] || 0) + 1, // t.ex. likes++
+              [opposite + 's']: previousReaction === opposite
+                ? Math.max((post[opposite + 's'] || 0) - 1, 0)
+                : post[opposite + 's']
             }
           : post
       )
     );
-    const updated = { ...userReactions, [postId]: "like" };
-    setUserReactions(updated);
-    localStorage.setItem("userReactions", JSON.stringify(updated));
   };
-  // Denna kod hanterar när användaren ogillar ett inlägg
-  // Om användaren har ogillat ett inlägg så händer inget om knappen trycks igen
-  // Om användaren har ogillat ett inlägg och sen väljer att gilla så minskas först antalet "ogilla" med 1 och antalet "gilla" ökar med 1 - och vice versa
-  const handleDislike = async (postId) => {
-    const prev = userReactions[postId];
-    if (prev === "dislike") return;
-    if (prev === "like") {
-      await writeClient.patch(postId).dec({ likes: 1 }).commit();
-    }
-    await writeClient
-      .patch(postId)
-      .setIfMissing({ dislikes: 0 })
-      .inc({ dislikes: 1 })
-      .commit();
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post._id === postId
-          ? {
-              ...post,
-              dislikes: (post.dislikes || 0) + 1,
-              likes: prev === "like" ? post.likes - 1 : post.likes,
-            }
-          : post
-      )
-    );
-    const updated = { ...userReactions, [postId]: "dislike" };
-    setUserReactions(updated);
-    localStorage.setItem("userReactions", JSON.stringify(updated));
-  };
+
+  updateState(setPosts);
+  updateState(setFilteredPosts);
+
+  // Uppdatera localStorage och state
+  const updated = { ...userReactions, [postId]: type };
+  setUserReactions(updated);
+  localStorage.setItem("userReactions", JSON.stringify(updated));
+};
+
 
   // Denna kod hämtar alla inlägg vid första rendering och laddar användarens tidigare reaktioner från localStorage
   useEffect(() => {
@@ -232,6 +225,8 @@ const Explore = () => {
               type="text"
               placeholder="Sök..."
               value={searchTerm}
+
+
               onChange={handleSearchChange}
               onKeyDown={(e) => {
                 // I sökfältet när du trycker Enter så får du samma resultat som när du trycker på sök-knappen, du blir skickad ner till "Inlägg" som har id:t #posts
@@ -345,37 +340,28 @@ const Explore = () => {
                 <p>Innehåll: {post.body}</p>
               </section>
               <section className="post-actions">
-                <button
-                  onClick={() => handleLike(post._id)}
-                  disabled={userReactions[post._id] === "like"}
-                  style={{
-                    backgroundColor:
-                      userReactions[post._id] === "like" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "like"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "like" ? "black" : "",
-                  }}
-                >
-                  👍 {post.likes || 0}
-                </button>
+                  <button
+                      onClick={() => handleReaction(post._id, "like")}
+                      disabled={userReactions[post._id] === "like"}
+                      style={{
+                        backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
+                        cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
+                        color: userReactions[post._id] === "like" ? "black" : "",
+                      }}>
+                      👍 {post.likes || 0}
+                  </button>
 
-                <button
-                  onClick={() => handleDislike(post._id)}
-                  disabled={userReactions[post._id] === "dislike"}
-                  style={{
-                    backgroundColor:
-                      userReactions[post._id] === "dislike" ? "#d4af37" : "",
-                    cursor:
-                      userReactions[post._id] === "dislike"
-                        ? "not-allowed"
-                        : "pointer",
-                    color: userReactions[post._id] === "dislike" ? "black" : "",
-                  }}
-                >
-                  👎 {post.dislikes || 0}
-                </button>
+                    <button
+                      onClick={() => handleReaction(post._id, "dislike")}
+                      disabled={userReactions[post._id] === "dislike"}
+                      style={{
+                        backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
+                        cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
+                        color: userReactions[post._id] === "dislike" ? "black" : "",
+                      }}>
+                      👎 {post.dislikes || 0}
+                   </button>
+
               </section>
             </article>
           ))
