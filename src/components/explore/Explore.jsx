@@ -157,7 +157,7 @@ const Explore = () => {
   };
 
 
- 
+ // funktion som hanterar reaktioner (gilla/ogilla) på inlägg
 const handleReaction = async (postId, type) => {
   // type kan vara "like" eller "dislike"
   const opposite = type === "like" ? "dislike" : "like";
@@ -172,9 +172,12 @@ const handleReaction = async (postId, type) => {
   }
 
   // Lägg till den nya reaktionen
+  // Användning av strängkonkatenering för att dynamiskt sätta likes/dislikes
+  // type blir like eller dislike + s för "likes" eller "dislikes" som då matchar schemafältet
+  // Med strängkonkatenering slipper vi dubbel kod för likes och dislikes
   await writeClient
     .patch(postId)
-    .setIfMissing({ [type + 's']: 0 }) // t.ex. likes eller dislikes
+    .setIfMissing({ [type + 's']: 0 }) 
     .inc({ [type + 's']: 1 })
     .commit();
 
@@ -337,29 +340,27 @@ const handleReaction = async (postId, type) => {
                 <p>Innehåll: {post.body}</p>
               </section>
               <section className="post-actions">
-        <button
-  onClick={() => handleReaction(post._id, "like")}
-  disabled={userReactions[post._id] === "like"}
-  style={{
-    backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
-    cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
-    color: userReactions[post._id] === "like" ? "black" : "",
-  }}
->
-  👍 {post.likes || 0}
-</button>
+                  <button
+                      onClick={() => handleReaction(post._id, "like")}
+                      disabled={userReactions[post._id] === "like"}
+                      style={{
+                        backgroundColor: userReactions[post._id] === "like" ? "#d4af37" : "",
+                        cursor: userReactions[post._id] === "like" ? "not-allowed" : "pointer",
+                        color: userReactions[post._id] === "like" ? "black" : "",
+                      }}>
+                      👍 {post.likes || 0}
+                  </button>
 
-<button
-  onClick={() => handleReaction(post._id, "dislike")}
-  disabled={userReactions[post._id] === "dislike"}
-  style={{
-    backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
-    cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
-    color: userReactions[post._id] === "dislike" ? "black" : "",
-  }}
->
-  👎 {post.dislikes || 0}
-</button>
+                    <button
+                      onClick={() => handleReaction(post._id, "dislike")}
+                      disabled={userReactions[post._id] === "dislike"}
+                      style={{
+                        backgroundColor: userReactions[post._id] === "dislike" ? "#d4af37" : "",
+                        cursor: userReactions[post._id] === "dislike" ? "not-allowed" : "pointer",
+                        color: userReactions[post._id] === "dislike" ? "black" : "",
+                      }}>
+                      👎 {post.dislikes || 0}
+                   </button>
 
               </section>
             </article>

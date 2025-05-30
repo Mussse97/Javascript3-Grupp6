@@ -1,8 +1,9 @@
-# 🌐 MedieTema
+# 🌐 MediaTema
 
 En komplett React-applikation där användare kan:
+
 - Skapa och utforska inlägg om filmer, böcker, musik och spel
-- Registrera sig och hantera egna användarprofiler
+- Registrera sig och få egna användarprofiler
 - Navigera via responsiv meny
 - Växla mellan mörkt/ljust tema
 - Följa sociala medier via sidfoten
@@ -12,29 +13,32 @@ En komplett React-applikation där användare kan:
 ## 🚀 Funktioner
 
 ### 🔐 Användarhantering
+
 - Registrera ny användare (`RegisterForm`)
 - Spara användare i Sanity CMS (`_type: "user"`)
 - Lista alla användare (`ProfilesList`)
 - Visa enskild profilsida via klick
-- Länk till "Min profil" när man är inloggad
 
 ### 📝 Inläggssystem
+
 - Skapa inlägg om film, musik, spel eller böcker (`CreatePost`)
 - Utforska alla inlägg via `Explore`
 - Backend: Sanity CMS (`_type: "post"`)
 
 ### 🌗 Temaväxling
+
 - Växla mellan mörkt och ljust läge med ikon i `Navbar`
 
 ### 📱 Navigation
+
 - Desktop-navigering via `Navbar`
 - Mobilnavigering via `HamburgerMenu`
 - Routing med React Router
 
 ### 📣 Footer / Sidfot
+
 - Sociala medielänkar (Facebook, Instagram, LinkedIn)
 - Stilren layout (`Footer.css`)
-- Följer användaren längst ned på sidan
 
 ---
 
@@ -45,63 +49,68 @@ En komplett React-applikation där användare kan:
 - Vite
 - React Router
 - Font Awesome (för sociala ikoner)
+- Cypress (för testning)
 
 ---
 
 ## 📦 Kom igång
 
-
 1. **Installera beroenden:**
-   \`\`\`bash
+
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Starta frontend:**
-   \`\`\`bash
+
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 3. **Ställ in Sanity:**
-   \`\`\`bash
+
+   ```bash
    cd sanity
    npm install
    npm run dev
-   \`\`\`
+   ```
 
 4. **Miljövariabler (valfritt):**
    Lägg till i `.env`:
-   \`\`\`
+   ```
    VITE_SANITY_PROJECT_ID=din-id
    VITE_SANITY_DATASET=production
-   \`\`\`
+   ```
+5. **Installara Cypress (valfritt):**
+
+```bash
+   npm install cypress
+```
 
 ---
 
-## ✅ Att göra
+## 📄 Projektmedlemmar och kontaktuppgifter
 
-- [ ] Profilbild för användare
-- [ ] Inloggning/autentisering
-- [ ] Sökfunktion i `Explore`
-- [ ] Like/favoritmarkering av inlägg
-- [ ] Footer: Lägg till kontaktformulär
-
----
-
-## 📄 ## Projektmedlemmar och kontaktuppgifter
 ### Mostafa Hussein
-- **GitHub**: 
-- **E-post**: 
-- **LinkedIn**:
-### Tobias Thor 
-- **GitHub**: [Tobias-Thor](https://github.com/Tobias-Thor)
-- **LinkedIn**: [Tobias Thor](https://www.linkedin.com/in/tobias-thor-810215182/)
-- **E-post**: [tobiasthor@protonmail.com](mailto:tobiasthor@protonmail.com)
-### Gentiana Berisha Rashiti
-- **GitHub**: [Gentiana.B.R](GentianaBR (Gentiana.B.R))
-- **LinkedIn**:[Gentiana Berisha Rashiti](https://www.linkedin.com/in/gentiana-b-29a43029a/)
-- **E-post**:  [g.rashiti@hotmail.com]
-### Jonas Eklöf
+
 - **GitHub**:
 - **E-post**:
 - **LinkedIn**:
 
+### Tobias Thor
+
+- **GitHub**: [Tobias-Thor](https://github.com/Tobias-Thor)
+- **LinkedIn**: [Tobias Thor](https://www.linkedin.com/in/tobias-thor-810215182/)
+- **E-post**: [tobiasthor@protonmail.com](mailto:tobiasthor@protonmail.com)
+
+### Gentiana Berisha Rashiti
+
+- **GitHub**: [Gentiana.B.R](GentianaBR "Gentiana.B.R")
+- **LinkedIn**:[Gentiana Berisha Rashiti](https://www.linkedin.com/in/gentiana-b-29a43029a/)
+- **E-post**: [g.rashiti@hotmail.com]
+
+### Jonas Eklöf
+
+- **GitHub**: [Jonas-Eklof](https://github.com/Jonas-Eklof/)
+- **LinkedIn**: [Jonas Eklöf](https://www.linkedin.com/in/jonas-ekl%C3%B6f/)
+- **E-post**: [jonas.eklof@student.kyh.se](mailto:jonas.eklof@student.kyh.se)

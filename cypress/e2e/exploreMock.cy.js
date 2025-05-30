@@ -25,7 +25,7 @@ describe('Explore Page', () => {
 
 it('filters posts by genre after selecting a category', () => {
   cy.contains('🎮 Spel').click(); // steg 1
-  cy.contains('Filtrera').click(); // steg 2
+  cy.contains('Filtrera').click(); // Kollar genrer kopplad med katergori
 
   cy.contains('label', 'Action') // eftersom att vissa genrer inte har en trfäff så lägger vi in en som redan har det.
     .find('input[type="checkbox"]')
@@ -47,7 +47,8 @@ it('filters posts by genre after selecting a category', () => {
       cy.contains('👎').click();
     });
   });
-
+  // Testar like och dislike knapparna på ett inlägg men kollar inte om ordningen är rätt
+  // Den kollar bara att inlägg visas oberoende av ordning
   it('shows most liked posts', () => {
     cy.contains('Mest gillade').click();
     cy.get('.post-card').should('exist');
